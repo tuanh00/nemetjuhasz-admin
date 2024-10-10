@@ -3,6 +3,7 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
   updateDoc,
   doc,
   query,
@@ -18,23 +19,21 @@ const petsCollection = collection(db, "pets");
 
 export const addPet = async (pet: Pet, imageFile: File) => {
   try {
-    // Create a storage reference
     const storageRef = ref(storage, `pets/${imageFile.name}`);
-
-    // Upload the image
     await uploadBytes(storageRef, imageFile);
-
-    // Get the download URL
     const imgUrl = await getDownloadURL(storageRef);
 
-    // Add pet data with the image URL
-    const petWithImgUrl: Pet = { ...pet, img_url: imgUrl };
-    const docRef = await addDoc(petsCollection, petWithImgUrl);
+    // Save img_urls as an array, do not include img_url
+    const petWithImgUrls: Pet = { ...pet, img_urls: [imgUrl] };
+    
+    // Add the pet object to Firestore
+    const docRef = await addDoc(petsCollection, petWithImgUrls);
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
 };
+
 
 export const getPets = async (): Promise<Pet[]> => {
   try {
@@ -97,6 +96,26 @@ export const getPetsPaginated = async (
   return { petsList, lastDoc: lastVisible };
 };
 
+// export const updatePetWithImage = async (
+//   id: string,
+//   pet: Partial<Pet>,
+//   image: File
+// ) => {
+//   const petRef = doc(db, "pets", id);
+
+//   // Create a reference to the storage location for the image
+//   const imageRef = ref(storage, `pets/${id}/${image.name}`);
+
+//   // Upload the image
+//   await uploadBytes(imageRef, image);
+
+//   // Get the download URL of the uploaded image
+//   const imgUrl = await getDownloadURL(imageRef);
+
+//   // Update the pet document with the new image URL
+//   await updateDoc(petRef, { ...pet, img_url: imgUrl });
+// };
+
 export const updatePetWithImage = async (
   id: string,
   pet: Partial<Pet>,
@@ -113,9 +132,15 @@ export const updatePetWithImage = async (
   // Get the download URL of the uploaded image
   const imgUrl = await getDownloadURL(imageRef);
 
-  // Update the pet document with the new image URL
-  await updateDoc(petRef, { ...pet, img_url: imgUrl });
+  // Retrieve the existing img_urls array
+  const petDoc = await getDoc(petRef);
+  const currentPetData = petDoc.data();
+  const existingImgUrls = currentPetData?.img_urls || [];
+
+  // Update the pet document with the new image URL (append to img_urls array)
+  await updateDoc(petRef, { ...pet, img_urls: [...existingImgUrls, imgUrl] });
 };
+
 
 export const updatePetStatus = async (petId: string, status: boolean) => {
   const petRef = doc(db, "pets", petId); // Adjust the collection name if needed

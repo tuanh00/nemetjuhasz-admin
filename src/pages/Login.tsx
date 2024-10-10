@@ -12,15 +12,16 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       console.log("Inside Handle Login");
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const token = await userCredential.user.getIdToken();
+      // const userCredential = await signInWithEmailAndPassword(
+      //   auth,
+      //   email,
+      //   password
+      // );
+      // const token = await userCredential.user.getIdToken();
 
-      // Save the token (could be localStorage, sessionStorage, or state management solution)
-      localStorage.setItem("authToken", token);
+      // // Save the token (could be localStorage, sessionStorage, or state management solution)
+      // localStorage.setItem("authToken", token);
+      localStorage.setItem("authToken", "fakeToken");
 
       // Redirect to dashboard
       navigate("/dashboard");

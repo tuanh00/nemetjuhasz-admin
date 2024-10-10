@@ -78,6 +78,11 @@ const Pets = () => {
     }
   };
 
+  // Define the handleUploadImages function here
+  const handleUploadImages = (petId: string) => {
+    navigate(`/adoptable-pet-editor/${petId}`);
+  };
+
   return (
     <div className="admin-container">
       <Sidebar />
@@ -104,14 +109,29 @@ const Pets = () => {
               <div
                 key={pet.id}
                 className="pet-card"
-                style={{ color: pet.status ? "" : "rgba(0,0,0,0.234)" }}
+                style={{
+                  color: pet.status ? "" : "rgba(0,0,0,0.234)",
+                  cursor: "pointer",
+                  transition: "transform 0.2s ease", //smooth effect
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.05)")
+                } // Zoom in when hover
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                } // Reset on mouse leave
+                onClick={() => handleUploadImages(pet.id ?? "")}
               >
                 <img
                   style={{
                     filter: pet.status ? "grayscale(0%)" : "grayscale(100%)",
                     transition: "filter 0.3s ease", // Optional: Smooth transition effect
                   }}
-                  src={pet.img_url}
+                  src={
+                    pet.img_urls.length > 0
+                      ? pet.img_urls[0]
+                      : "default_image_url"
+                  } // Add a fallback if no image
                   alt={pet.name}
                 />
                 <div
@@ -123,12 +143,9 @@ const Pets = () => {
                     Age: {pet.age} {pet.age_type}s
                   </p>
                   <p>Type: {pet.type}</p>
-
-                  {/* <p style={{ color: pet.status ? "green" : "red" }}>
-                    Status: {pet.status ? "Active" : "Inactive"}
-                  </p> */}
                 </div>
-                <div className="toggle">
+
+                <div className="toggle" onClick={(e) => e.stopPropagation()}>
                   <p>Status:</p>
                   <ToggleSwitch
                     isActive={pet.status}

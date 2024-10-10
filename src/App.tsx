@@ -7,6 +7,7 @@ import {
 // import { Suspense } from "react";
 // import Loader from "./components/Loader";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdoptablePetEditor  from './pages/AdoptablePetEditor';
 
 // const Login = lazy(() => import("./pages/Login"));
 // const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -80,6 +81,16 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        {/* Route for Adoptable Pet Editor - uploading images for a pet*/}
+        <Route
+          path="/adoptable-pet-editor/:petId"
+          element={
+            <ProtectedRoute>
+              <AdoptablePetEditor  />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>

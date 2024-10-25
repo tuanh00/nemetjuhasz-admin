@@ -112,8 +112,11 @@ const AddPets = () => {
     age_type: "",
     type: "",
     status: false,
-    img_url: "", // Added img_url field
+    img_urls: [], // Use img_urls as an array
+    title: "", // Initialize title with an empty string
+    content: "" // Initialize content with an empty string
   });
+
   const [message, setMessage] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null); // Added image preview state
@@ -145,6 +148,7 @@ const AddPets = () => {
     e.preventDefault();
     if (image) {
       try {
+        // Add image to the img_urls array
         await addPet(pet, image);
         setMessage("Pet added successfully!");
         setPet({
@@ -153,7 +157,9 @@ const AddPets = () => {
           age_type: "",
           type: "",
           status: false,
-          img_url: "",
+          img_urls: [], // Reset img_urls
+          title: "", // Keep title and content empty as intended
+          content: "",
         });
         setImage(null);
         setImagePreview(null); // Clear the image preview after successful submission
@@ -254,3 +260,5 @@ const AddPets = () => {
 };
 
 export default AddPets;
+
+

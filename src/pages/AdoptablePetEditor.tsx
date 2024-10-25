@@ -181,19 +181,23 @@ const AdoptablePetEditor: React.FC = () => {
         <input type="file" multiple onChange={handleFileChange} />
 
         {files.length > 0 && (
-          <div className="preview-container">
-            <h3>Selected Images for Upload:</h3>
-            <div className="image-preview-grid">
-              {files.map((file, index) => (
-                <div key={index} className="image-preview">
-                  <img src={URL.createObjectURL(file)} alt={`Preview ${index}`} />
-                  <span className="preview-name">{file.name}</span>
-                  <button className="remove-btn" onClick={() => handleRemoveFile(index)}>X</button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+  <div className="preview-container">
+    <h3>Selected Images for Upload:</h3>
+    <div className="image-preview-grid">
+      {files.map((file, index) => (
+        <div key={index} className="image-preview">
+          {file.type.startsWith("image/") ? (
+            <img src={URL.createObjectURL(file)} alt={`Preview ${index}`} />
+          ) : (
+            <p>{file.name} is not an image and cannot be previewed.</p>
+          )}
+          <span className="preview-name">{file.name}</span>
+          <button className="remove-btn" onClick={() => handleRemoveFile(index)}>X</button>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
         <button className="btn upload-btn" onClick={handleUpload} disabled={loading}>
           {loading ? (

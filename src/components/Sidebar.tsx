@@ -1,44 +1,45 @@
+import { useState } from "react";
 import { IconType } from "react-icons";
 import { IoMdAdd } from "react-icons/io";
 import { IoDesktop } from "react-icons/io5";
 import { MdPets } from "react-icons/md";
 import { Link, Location, useLocation } from "react-router-dom";
+import { IoMenu } from "react-icons/io5"; // Hamburger icon
 
 const Sidebar = () => {
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Track sidebar state for mobile
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <aside>
-      <div>
-        <h5>Dashboard</h5>
-        <ul>
-          <Li
-            url="/dashboard"
-            text="Dashboard"
-            Icon={IoDesktop}
-            location={location}
-          />
-          <Li url="/pet" text="Pets" Icon={MdPets} location={location} />
-          <Li
-            url="/add-pet"
-            text="Add Pet"
-            Icon={IoMdAdd}
-            location={location}
-          />
-          {/* <Li
-            url="/update-pet"
-            text="Edit Pet"
-            Icon={MdEdit}
-            location={location}
-          /> */}
-          {/* <Li
-            url="/delete-pet"
-            text="Delete Pet"
-            Icon={MdDelete}
-            location={location}
-          /> */}
-        </ul>
+    <>
+      <div className="hamburger-icon" onClick={toggleSidebar}>
+        <IoMenu />
       </div>
-    </aside>
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div>
+          <h5>Dashboard</h5>
+          <ul>
+            <Li
+              url="/dashboard"
+              text="Dashboard"
+              Icon={IoDesktop}
+              location={location}
+            />
+            <Li url="/pet" text="Pets" Icon={MdPets} location={location} />
+            <Li
+              url="/add-pet"
+              text="Add Pet"
+              Icon={IoMdAdd}
+              location={location}
+            />
+          </ul>
+        </div>
+      </aside>
+    </>
   );
 };
 

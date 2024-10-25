@@ -43,7 +43,7 @@ const UpdatePets = () => {
               className="pet-card"
               onClick={() => handleCardClick(pet.id ?? "")}
             >
-              <img src={pet.img_url} alt={pet.name} />
+              <img src={pet.img_urls[0]} alt={pet.name} />
               <div className="pet-info">
                 <h3>{pet.name}</h3>
                 <p>Age: {pet.age}</p>

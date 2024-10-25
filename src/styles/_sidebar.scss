@@ -1,0 +1,75 @@
+.sidebar {
+  width: 20%;
+  background-color: white;
+  padding: 1rem;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  transform: translateX(0); // Visible by default on desktop
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  @media (max-width: 768px) {
+    width: 100%; // Full width on mobile
+    transform: translateX(-100%); // Hide it initially (off-screen)
+    
+    &.open {
+      transform: translateX(0); // Slide in when open
+      z-index: 999; // Ensure it stays on top of everything
+    }
+  }
+
+  h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      background-color: white;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      
+
+      &:hover {
+        background-color: rgba(0, 115, 255, 0.1);
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        text-decoration: none; // Remove underline
+        color: inherit; // Keep color as it is
+        width: 100%; // Ensure the link takes up full width
+      }
+
+      svg {
+        margin-right: 0.5rem; // Space between icon and text
+        font-size: 1.5rem; // Adjust icon size if necessary
+      }
+
+    }
+  }
+}
+
+// Hamburger icon for mobile
+.hamburger-icon {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1001; // Ensure it stays on top
+  }
+}

@@ -2,6 +2,8 @@
 @import "login";
 @import "pets";
 @import "adoptablepet";
+@import "sidebar";
+@import "addpet";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -32,43 +34,71 @@ a {
   color: rgb(0, 195, 0);
 }
 
-.admin-container {
+// .admin-container {
 
-  @include grid(1fr 4fr, 2rem);
+//   @include grid(1fr 4fr, 2rem);
+//   height: 100vh;
+//   background-color: rgb(247, 247, 247);
+
+//   > aside {
+//     width: 100%;
+//     background-color: white;
+//     padding: 1rem;
+//     z-index: 10;
+//     overflow-y: auto;
+//     &::-webkit-scrollbar {
+//       display: none;
+//     }
+//     > div {
+//       margin: 2rem 1rem;
+//       > h5 {
+//         @include heading(2px);
+//         opacity: 0.8;
+//         margin: 1rem 0;
+//       }
+//       > ul {
+//         @include flex(column, unset, unset, 0.5rem);
+//         list-style: none;
+//         > li {
+//           padding: 0.5rem 1rem;
+//           border-radius: 20px;
+//           a {
+//             color: rgba(0, 0, 0, 0.825);
+//             @include flex(row, unset, unset, 2rem);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+.admin-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr; // Sidebar 20%, content 80%
+  gap: 2rem;
   height: 100vh;
   background-color: rgb(247, 247, 247);
 
-  > aside {
-    width: 100%;
+  main {
+    grid-column: 2 / 3; // Content spans the second column
+    width: calc(100% - 2rem); // Full width minus padding on mobile
+    padding: 2rem;
     background-color: white;
-    padding: 1rem;
-    z-index: 10;
     overflow-y: auto;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    > div {
-      margin: 2rem 1rem;
-      > h5 {
-        @include heading(2px);
-        opacity: 0.8;
-        margin: 1rem 0;
-      }
-      > ul {
-        @include flex(column, unset, unset, 0.5rem);
-        list-style: none;
-        > li {
-          padding: 0.5rem 1rem;
-          border-radius: 20px;
-          a {
-            color: rgba(0, 0, 0, 0.825);
-            @include flex(row, unset, unset, 2rem);
-          }
-        }
-      }
+
+    @media (max-width: 768px) {
+      grid-column: 1 / 2; // Main content takes the full width in mobile mode
+      width: 100%; // Ensure full width in mobile mode
+      padding: 1rem; // Reduce padding for mobile
+      margin: 0; // Remove any potential margins
     }
   }
+
+  // Sidebar is hidden on mobile by default, main content takes full width
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; // Single column layout
+  }
 }
+
 
 .toggle {
   @include flex(column, center, center, 0.2rem);
@@ -118,7 +148,7 @@ a {
   }
 }
  // General button styles
- .btn {
+ main .btn {
   padding: 10px 20px;
   color: white;
   border: none;
@@ -128,10 +158,9 @@ a {
   transition: opacity 0.3s ease, background-color 0.3s ease;
   display: flex;
   align-items: center;
-  background-color: #007bff; /* Modern blue */
+  background: linear-gradient(to right, #aabbff, #07bffa);
 }
 .btn:hover:not(:disabled) {
-  background-color: #0056b3; /* Darker blue on hover */
   opacity: 0.9;
 }
 

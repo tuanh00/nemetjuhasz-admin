@@ -1,4 +1,4 @@
-import { db, storage } from "../firebase/Firebase";
+import { db, storage, serverTimestamp } from "../firebase/Firebase"; // Add serverTimestamp from Firebase
 import {
   collection,
   addDoc,
@@ -23,10 +23,9 @@ export const addPet = async (pet: Pet, imageFile: File) => {
     await uploadBytes(storageRef, imageFile);
     const imgUrl = await getDownloadURL(storageRef);
 
-    // Save img_urls as an array, do not include img_url
-    const petWithImgUrls: Pet = { ...pet, img_urls: [imgUrl] };
+    // Add the createdAt field with serverTimestamp()
+    const petWithImgUrls: Pet = { ...pet, img_urls: [imgUrl], createdAt: serverTimestamp() };
     
-    // Add the pet object to Firestore
     const docRef = await addDoc(petsCollection, petWithImgUrls);
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
@@ -34,14 +33,19 @@ export const addPet = async (pet: Pet, imageFile: File) => {
   }
 };
 
-
 export const getPets = async (): Promise<Pet[]> => {
   try {
-    const querySnapshot = await getDocs(collection(db, "pets"));
+    const petsCollection = collection(db, "pets");
+    
+    // Applying orderBy to sort by 'createdAt' in descending order (latest first)
+    const petsQuery = query(petsCollection, orderBy("createdAt", "desc"));
+    
+    const querySnapshot = await getDocs(petsQuery);
     const pets: Pet[] = [];
     querySnapshot.forEach((doc) => {
       pets.push({ id: doc.id, ...doc.data() } as Pet);
     });
+    
     return pets;
   } catch (e) {
     console.error("Error getting documents: ", e);
@@ -78,12 +82,12 @@ export const getPetsPaginated = async (
   if (isNextPage && lastDoc) {
     petsQuery = query(
       collection(db, "pets"),
-      orderBy("name"),
+      orderBy("createdAt", "desc"), // Order by creation date in descending order
       startAfter(lastDoc),
       limit(pageSize)
     );
   } else {
-    petsQuery = query(collection(db, "pets"), orderBy("name"), limit(pageSize));
+    petsQuery = query(collection(db, "pets"), orderBy("createdAt", "desc"), limit(pageSize));
   }
 
   const snapshot = await getDocs(petsQuery);

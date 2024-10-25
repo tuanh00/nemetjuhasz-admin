@@ -16,9 +16,14 @@
 
   .image-preview {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 100px; /* Reduced size for mobile */
+    height: 100px;
     overflow: hidden;
+    
+    @media (min-width: 768px) {
+      width: 120px; /* Normal size for desktop */
+      height: 120px;
+    }
   }
 
   .image-preview img {
@@ -56,7 +61,6 @@
 
   .input-field,
   .textarea-field {
-    font-family: inherit;
     width: 100%;
     padding: 10px;
     margin: 5px 0 10px;
@@ -69,13 +73,16 @@
     resize: none;
   }
 
- 
-
-  // Upload Images button specific styles
+  // Button alignment for mobile and desktop
   .upload-btn {
     margin-top: 15px;
+    display: block;
+    width: 100%;
+    
+    @media (min-width: 768px) {
+      width: auto;
+    }
   }
-
 
   .message {
     margin-top: 10px;

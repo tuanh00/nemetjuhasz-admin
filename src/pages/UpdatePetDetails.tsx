@@ -107,8 +107,8 @@ const UpdatePetDetails = () => {
         if (currentPet) {
           setPet(currentPet);
           // Set image preview if there's an image URL
-          if (currentPet.img_url) {
-            setImagePreview(currentPet.img_url);
+          if (currentPet.img_urls) {
+            setImagePreview(currentPet.img_urls[0]);
           }
         } else {
           setError("Pet not found.");
@@ -155,11 +155,11 @@ const UpdatePetDetails = () => {
         if (image) {
           await updatePetWithImage(
             id,
-            { ...pet, img_url: imagePreview || pet.img_url },
+            { ...pet, img_urls: [...(pet.img_urls || []), imagePreview || ""] }, // Add to img_urls array
             image
           );
         } else {
-          await updatePet(id, { ...pet, img_url: imagePreview || pet.img_url });
+          await updatePet(id, { ...pet, img_urls: pet.img_urls || [] });
         }
         setMessage("Pet updated successfully!");
         setImage(null);
@@ -169,6 +169,7 @@ const UpdatePetDetails = () => {
       }
     }
   };
+  
 
   //   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //     const { name, value } = e.target;

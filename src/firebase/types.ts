@@ -11,6 +11,7 @@ export interface Pet {
   title: string;
   content: string;
   createdAt?: FieldValue; 
+  hungarian_content: string;
 }
 
 export interface AdoptablePet {

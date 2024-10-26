@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { storage, db } from "../firebase/Firebase";
-import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { doc, updateDoc, arrayUnion, getDoc, setDoc } from "firebase/firestore";
 import Sidebar from "../components/Sidebar";
 import { useParams } from "react-router-dom";
@@ -14,6 +19,7 @@ const AdoptablePetEditor: React.FC = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [hungarianContent, setHungarianContent] = useState<string>("");
   const [imgUrls, setImgUrls] = useState<string[]>([]);
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -23,11 +29,13 @@ const AdoptablePetEditor: React.FC = () => {
       if (petId) {
         const pets = await getPets();
         for (let i = 0; i < pets.length; i++) {
-          if (pets[i].id === petId) { //check if the pet id from the url matches the pet id from the pets array
+          if (pets[i].id === petId) {
+            //check if the pet id from the url matches the pet id from the pets array
             setPet(pets[i]);
             setImgUrls(pets[i].img_urls || []); //set the img urls for the editing pet
-            setTitle(pets[i].title || "");  
+            setTitle(pets[i].title || "");
             setContent(pets[i].content || "");
+            setHungarianContent(pets[i].hungarian_content || "");
             break;
           }
         }
@@ -101,6 +109,7 @@ const AdoptablePetEditor: React.FC = () => {
             img_urls: arrayUnion(...urls),
             title,
             content,
+            hungarianContent,
           });
         }
         setImgUrls((prevUrls) => [...prevUrls, ...urls]);
@@ -128,16 +137,26 @@ const AdoptablePetEditor: React.FC = () => {
         <h2>Manage Adoptable Pet Information</h2>
         {pet ? (
           <div>
-            <p><strong>ID:</strong> {petId}</p>
-            <p><strong>Name:</strong> {pet.name}</p>
-            <p><strong>Age:</strong> {pet.age} {pet.age_type}</p>
-            <p><strong>Type:</strong> {pet.type}</p>
+            <p>
+              <strong>ID:</strong> {petId}
+            </p>
+            <p>
+              <strong>Name:</strong> {pet.name}
+            </p>
+            <p>
+              <strong>Age:</strong> {pet.age} {pet.age_type}
+            </p>
+            <p>
+              <strong>Type:</strong> {pet.type}
+            </p>
           </div>
         ) : (
           <p>No pet found.</p>
         )}
 
-        <label><strong>Title:</strong></label>
+        <label>
+          <strong>Title:</strong>
+        </label>
         <input
           type="text"
           value={title}
@@ -146,10 +165,22 @@ const AdoptablePetEditor: React.FC = () => {
           className="input-field"
         />
 
-        <label><strong>Description:</strong></label>
+        <label>
+          <strong>Description:</strong>
+        </label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          placeholder="Enter description for the pet"
+          className="textarea-field"
+        ></textarea>
+
+        <label>
+          <strong>Hungarian Description:</strong>
+        </label>
+        <textarea
+          value={hungarianContent}
+          onChange={(e) => setHungarianContent(e.target.value)}
           placeholder="Enter description for the pet"
           className="textarea-field"
         ></textarea>
@@ -163,7 +194,11 @@ const AdoptablePetEditor: React.FC = () => {
                 <button
                   className="remove-btn"
                   onClick={() => {
-                    if (window.confirm("Are you sure you want to delete this image?")) {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this image?"
+                      )
+                    ) {
                       handleRemoveCurrentImage(url);
                     }
                   }}
@@ -181,32 +216,38 @@ const AdoptablePetEditor: React.FC = () => {
         <input type="file" multiple onChange={handleFileChange} />
 
         {files.length > 0 && (
-  <div className="preview-container">
-    <h3>Selected Images for Upload:</h3>
-    <div className="image-preview-grid">
-      {files.map((file, index) => (
-        <div key={index} className="image-preview">
-          {file.type.startsWith("image/") ? (
-            <img src={URL.createObjectURL(file)} alt={`Preview ${index}`} />
-          ) : (
-            <p>{file.name} is not an image and cannot be previewed.</p>
-          )}
-          <span className="preview-name">{file.name}</span>
-          <button className="remove-btn" onClick={() => handleRemoveFile(index)}>X</button>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
+          <div className="preview-container">
+            <h3>Selected Images for Upload:</h3>
+            <div className="image-preview-grid">
+              {files.map((file, index) => (
+                <div key={index} className="image-preview">
+                  {file.type.startsWith("image/") ? (
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={`Preview ${index}`}
+                    />
+                  ) : (
+                    <p>{file.name} is not an image and cannot be previewed.</p>
+                  )}
+                  <span className="preview-name">{file.name}</span>
+                  <button
+                    className="remove-btn"
+                    onClick={() => handleRemoveFile(index)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-        <button className="btn upload-btn" onClick={handleUpload} disabled={loading}>
-          {loading ? (
-            <span>
-              Saving...
-            </span>
-          ) : (
-            "Save Changes"
-          )}
+        <button
+          className="btn upload-btn"
+          onClick={handleUpload}
+          disabled={loading}
+        >
+          {loading ? <span>Saving...</span> : "Save Changes"}
         </button>
 
         {message && (

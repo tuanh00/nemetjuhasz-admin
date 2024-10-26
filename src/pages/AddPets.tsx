@@ -115,7 +115,8 @@ const AddPets = () => {
     img_urls: [], // Use img_urls as an array
     title: "", // Initialize title with an empty string
     content: "",// Initialize content with an empty string
-    hungarian_content: ""
+    hungarianContent: "",
+    hungarianTitle: "",
   });
 
   const [message, setMessage] = useState<string | null>(null);
@@ -161,7 +162,8 @@ const AddPets = () => {
           img_urls: [], // Reset img_urls
           title: "", // Keep title and content empty as intended
           content: "",
-          hungarian_content: ""
+          hungarianContent: "",
+          hungarianTitle: "",
         });
         setImage(null);
         setImagePreview(null); // Clear the image preview after successful submission

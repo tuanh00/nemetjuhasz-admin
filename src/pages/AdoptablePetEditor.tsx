@@ -18,6 +18,7 @@ const AdoptablePetEditor: React.FC = () => {
   const [pet, setPet] = useState<Pet | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
+  const [hungarianTitle, setHungarianTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [hungarianContent, setHungarianContent] = useState<string>("");
   const [imgUrls, setImgUrls] = useState<string[]>([]);
@@ -35,7 +36,8 @@ const AdoptablePetEditor: React.FC = () => {
             setImgUrls(pets[i].img_urls || []); //set the img urls for the editing pet
             setTitle(pets[i].title || "");
             setContent(pets[i].content || "");
-            setHungarianContent(pets[i].hungarian_content || "");
+            setHungarianContent(pets[i].hungarianContent || "");
+            setHungarianTitle(pets[i].hungarianTitle || "");
             break;
           }
         }
@@ -110,6 +112,7 @@ const AdoptablePetEditor: React.FC = () => {
             title,
             content,
             hungarianContent,
+            hungarianTitle,
           });
         }
         setImgUrls((prevUrls) => [...prevUrls, ...urls]);
@@ -164,7 +167,16 @@ const AdoptablePetEditor: React.FC = () => {
           placeholder="Enter title for the pet"
           className="input-field"
         />
-
+          <label>
+          <strong>Hungarian Title:</strong>
+        </label>
+        <input
+          type="text"
+          value={hungarianTitle}
+          onChange={(e) => setHungarianTitle(e.target.value)}
+          placeholder="Enter title for the pet"
+          className="input-field"
+        />
         <label>
           <strong>Description:</strong>
         </label>

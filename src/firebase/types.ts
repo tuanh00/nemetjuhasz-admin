@@ -21,3 +21,6 @@ export interface AdoptablePet {
   content: string; 
 }
 
+
+// I guess i closed the brower by mistake.
+

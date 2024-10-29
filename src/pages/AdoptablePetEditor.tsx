@@ -33,7 +33,7 @@ const AdoptablePetEditor: React.FC = () => {
           if (pets[i].id === petId) {
             //check if the pet id from the url matches the pet id from the pets array
             setPet(pets[i]);
-            setImgUrls(pets[i].img_urls || []); //set the img urls for the editing pet
+            setImgUrls(pets[i].img_urls || []); //set the img urls for the editing pet.
             setTitle(pets[i].title || "");
             setContent(pets[i].content || "");
             setHungarianContent(pets[i].hungarianContent || "");

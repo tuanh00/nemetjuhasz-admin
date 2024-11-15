@@ -43,18 +43,6 @@
     font-size: 0.9rem;
   }
 
-  .remove-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: rgba(255, 0, 0, 0.7);
-    border: none;
-    color: white;
-    padding: 2px 5px;
-    cursor: pointer;
-    visibility: hidden;
-  }
-
   .image-preview:hover .remove-btn {
     visibility: visible;
   }

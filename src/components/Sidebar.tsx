@@ -5,6 +5,7 @@ import { IoDesktop } from "react-icons/io5";
 import { MdPets } from "react-icons/md";
 import { Link, Location, useLocation } from "react-router-dom";
 import { IoMenu } from "react-icons/io5"; // Hamburger icon
+import { FaHome } from "react-icons/fa"; // Home icon
 
 const Sidebar = () => {
   const location = useLocation();
@@ -33,6 +34,18 @@ const Sidebar = () => {
             <Li
               url="/add-pet"
               text="Add Pet"
+              Icon={IoMdAdd}
+              location={location}
+            />
+             <Li
+              url="/home-sections"
+              text="Home Sections"
+              Icon={FaHome}
+              location={location}
+            />
+            <Li
+              url="/add-home-section"
+              text="Add Home Section"
               Icon={IoMdAdd}
               location={location}
             />

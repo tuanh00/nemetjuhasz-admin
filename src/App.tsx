@@ -24,7 +24,9 @@ import AddPets from "./pages/AddPets";
 // import DeletePets from "./pages/DeletePets";
 import UpdatePetDetails from "./pages/UpdatePetDetails";
 // import UpdatePets from "./pages/UpdatePets";
-
+import AddHomeSection from "./pages/AddHomeSection";
+import EditHomeSection from "./pages/EditHomeSection";
+import HomeSectionList from "./pages/HomeSectionList";
 const App = () => {
   return (
     <Router>
@@ -90,7 +92,10 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+ {/* Add new routes for home sections */}
+ <Route path="/home-sections" element={<HomeSectionList />} />
+        <Route path="/add-home-section" element={<AddHomeSection />} />
+        <Route path="/edit-home-section/:id" element={<EditHomeSection />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>

@@ -1,0 +1,78 @@
+.add-home-section-container {
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .image-preview-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .image-preview {
+      position: relative;
+      width: 130px; /* Default smaller size */
+      height: 130px;
+      overflow: hidden;
+      border-radius: 5px; // Optional: adds rounded corners for a polished look
+
+      @media (min-width: 768px) {
+        width: 100px; /* Medium size for tablet and up */
+        height: 100px;
+      }
+
+      @media (min-width: 1024px) {
+        width: 120px; /* Full size for desktop */
+        height: 120px;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;   
+      }
+
+    }
+
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .preview-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      text-align: center;
+
+      img {
+        width: 80px; /* Adjust image width for mobile view */
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+
+        @media (min-width: 768px) {
+          width: 100px; /* Medium size for tablet */
+        }
+
+        @media (min-width: 1024px) {
+          width: 120px; /* Larger size for desktop */
+        }
+      }
+    }
+  }
+}

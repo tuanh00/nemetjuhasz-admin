@@ -31,10 +31,22 @@ const FosterSectionForm: React.FC<FosterSectionFormProps> = ({ section, handleCh
 
   return (
     <>
-      <input type="text" name="title" placeholder="Title" value={section.title} onChange={handleChange} />
-      <input type="text" name="hungarianTitle" placeholder="Hungarian Title" value={section.hungarianTitle} onChange={handleChange} />
-      <textarea name="content" placeholder="Content" value={section.content} onChange={handleChange}></textarea>
-      <textarea name="hungarianContent" placeholder="Hungarian Content" value={section.hungarianContent} onChange={handleChange}></textarea>
+    <div className="input-box">
+      <label>English Title:</label>
+      <input type="text" name="title" placeholder="Title" value={section.title} onChange={handleChange} required/>
+    </div>
+    <div className="input-box">
+      <label>Hungarian Title:</label>
+      <input type="text" name="hungarianTitle" placeholder="Hungarian Title" value={section.hungarianTitle} onChange={handleChange} required/>
+    </div>
+    <div className="input-box">
+      <label>English Description:</label>
+      <textarea name="content" placeholder="Content" value={section.content} onChange={handleChange} required></textarea>
+    </div>
+    <div className="input-box">
+      <label>Hungarian Description:</label>
+      <textarea name="hungarianContent" placeholder="Hungarian Content" value={section.hungarianContent} onChange={handleChange} required></textarea>
+    </div>
 
       <div className="input-box">
         <label>Image (Max 1):</label>
@@ -44,7 +56,7 @@ const FosterSectionForm: React.FC<FosterSectionFormProps> = ({ section, handleCh
             <button className="remove-btn" onClick={handleRemoveImage}>X</button>
           </div>
         ) : (
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input type="file" accept="image/*" onChange={handleImageChange} required/>
         )}
       </div>
     </>

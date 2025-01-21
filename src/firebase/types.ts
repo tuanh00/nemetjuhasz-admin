@@ -40,9 +40,7 @@ export interface HeroSection {
   id?: string;
   sectionType: "hero";
   title: string;
-  content: string;
   hungarianTitle: string;
-  hungarianContent: string;
   imgUrl: string;
 }
 

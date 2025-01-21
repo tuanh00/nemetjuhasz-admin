@@ -1,5 +1,5 @@
 // AddHomeSection.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import HeroSectionPreview from "./previews/HeroSectionPreview";
 import FeatureSectionPreview from "./previews/FeatureSectionPreview";
@@ -35,7 +35,27 @@ const AddHomeSection: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false); 
 
+  // Validation 
+  useEffect(() => {
+    if(!homeSection) {
+      setIsFormValid(false);
+      return;
+    }
+
+    if (homeSection.sectionType === "hero") {
+      const hero = homeSection as HeroSection;
+      const hasTitle = hero.title.trim() !== "";
+      const hasHungarianTitle = hero.hungarianTitle.trim() !== "";
+      const hasImage = hero.imgUrl.trim() !== "";
+      setIsFormValid(hasTitle && hasHungarianTitle && hasImage);
+    }else {
+      // For other sections, you can add similar validation or set to true if no specific validation is required
+      setIsFormValid(true); // Adjust this as needed for other sections
+    }
+  }, [homeSection]);
+  
   const handleSectionTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
@@ -48,9 +68,7 @@ const AddHomeSection: React.FC = () => {
         setHomeSection({
           sectionType: "hero",
           title: "",
-          content: "",
           hungarianTitle: "",
-          hungarianContent: "",
           imgUrl: "",
         } as HeroSection);
         break;
@@ -264,6 +282,7 @@ const AddHomeSection: React.FC = () => {
     setHomeSection(null);
     setImageFiles([undefined, undefined]);
     setShowPreview(false);
+    setIsFormValid(false);
   };
 
   const handlePreviewToggle = () => {
@@ -344,7 +363,7 @@ const AddHomeSection: React.FC = () => {
             />
           )}
 
-          <button type="submit" className="btn mt-3" disabled={loading}>
+          <button type="submit" className="btn mt-3" disabled={loading || !isFormValid}>
             {loading ? "Adding..." : "Add Home Section"}
           </button>
         </form>

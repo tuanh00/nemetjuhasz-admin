@@ -27,6 +27,7 @@ import {
   TestimonialSection,
 } from "../firebase/types";
 import { addHomeSection } from "../firebase/HomeService";
+import "../styles/_addhomesection.scss"; 
 
 const AddHomeSection: React.FC = () => {
   const [homeSection, setHomeSection] = useState<HomeSection | null>(null);
@@ -470,6 +471,7 @@ const AddHomeSection: React.FC = () => {
         {showPreview && homeSection && (
           <PreviewSection homeSection={homeSection} />
         )}
+        
         {/* Display message box for success/failure */}
         {message && (
           <p className={`message-box ${isSuccess ? "success" : "error"}`}>

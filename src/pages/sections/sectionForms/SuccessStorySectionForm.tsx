@@ -75,22 +75,34 @@ const SuccessStorySectionForm: React.FC<SuccessStorySectionFormProps> = ({
 
   return (
     <div className="container">
-      <h3>Success Story Section</h3>
-      {/* Section Title */}
-      <div className="mb-3">
-        <label htmlFor="title" className="form-label">
-          Section Title
-        </label>
+      {/* English Title */}
+      <div className="input-box">
+        <label htmlFor="title" className="form-label">English Section Title</label>
         <input
           id="title"
           name="title"
           className="form-control"
           value={section.title}
+          placeholder="English Section Title"
           onChange={handleInputChange}
+          required
+        />
+      </div>
+      {/* Hungarian Title */}
+      <div className="input-box">
+        <label htmlFor="hungarianTitle" className="form-label">Hungarian Section Title</label>
+        <input
+          id="hungarianTitle"
+          name="hungarianTitle"
+          className="form-control"
+          value={section.hungarianTitle}
+          placeholder="Hungarian Section Title"
+          onChange={handleInputChange}
+          required
         />
       </div>
       {/* First Image Titles */}
-      <div className="mb-3">
+      <div className="input-box">
         <label htmlFor="title1" className="form-label">
           First Image Title (English)
         </label>
@@ -100,9 +112,10 @@ const SuccessStorySectionForm: React.FC<SuccessStorySectionFormProps> = ({
           className="form-control"
           value={section.title1}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="input-box">
         <label htmlFor="hungarianTitle1" className="form-label">
           First Image Title (Hungarian)
         </label>
@@ -112,10 +125,11 @@ const SuccessStorySectionForm: React.FC<SuccessStorySectionFormProps> = ({
           className="form-control"
           value={section.hungarianTitle1}
           onChange={handleInputChange}
+          required
         />
       </div>
       {/* First Image Upload */}
-      <div className="mb-3">
+      <div className="input-box">
         <label className="form-label">First Image</label>
         {imagePreviews[0] ? (
           <div className="image-preview">
@@ -134,11 +148,12 @@ const SuccessStorySectionForm: React.FC<SuccessStorySectionFormProps> = ({
             accept="image/*"
             onChange={(e) => handleImageChange(e, 0)}
             className="form-control"
+            required
           />
         )}
       </div>
       {/* Second Image Titles */}
-      <div className="mb-3">
+      <div className="input-box">
         <label htmlFor="title2" className="form-label">
           Second Image Title (English)
         </label>
@@ -148,9 +163,10 @@ const SuccessStorySectionForm: React.FC<SuccessStorySectionFormProps> = ({
           className="form-control"
           value={section.title2}
           onChange={handleInputChange}
+          required
         />
       </div>
-      <div className="mb-3">
+      <div className="input-box">
         <label htmlFor="hungarianTitle2" className="form-label">
           Second Image Title (Hungarian)
         </label>
@@ -160,10 +176,11 @@ const SuccessStorySectionForm: React.FC<SuccessStorySectionFormProps> = ({
           className="form-control"
           value={section.hungarianTitle2}
           onChange={handleInputChange}
+          required
         />
       </div>
       {/* Second Image Upload */}
-      <div className="mb-3">
+      <div className="input-box">
         <label className="form-label">Second Image</label>
         {imagePreviews[1] ? (
           <div className="image-preview">
@@ -182,6 +199,7 @@ const SuccessStorySectionForm: React.FC<SuccessStorySectionFormProps> = ({
             accept="image/*"
             onChange={(e) => handleImageChange(e, 1)}
             className="form-control"
+            required
           />
         )}
       </div>

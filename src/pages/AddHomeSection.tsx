@@ -44,15 +44,110 @@ const AddHomeSection: React.FC = () => {
       return;
     }
 
-    if (homeSection.sectionType === "hero") {
-      const hero = homeSection as HeroSection;
-      const hasTitle = hero.title.trim() !== "";
-      const hasHungarianTitle = hero.hungarianTitle.trim() !== "";
-      const hasImage = hero.imgUrl.trim() !== "";
-      setIsFormValid(hasTitle && hasHungarianTitle && hasImage);
-    }else {
-      // For other sections, you can add similar validation or set to true if no specific validation is required
-      setIsFormValid(true); // Adjust this as needed for other sections
+    switch (homeSection.sectionType) {
+      case "hero":
+        const hero = homeSection as HeroSection;
+        const hasHeroTitle = hero.title.trim() !== "";
+        const hasHeroHungarianTitle = hero.hungarianTitle.trim() !== "";
+        const hasHeroImage = hero.imgUrl.trim() !== "";
+        setIsFormValid(hasHeroTitle && hasHeroHungarianTitle && hasHeroImage);
+        break;
+
+      case "features":
+        const features = homeSection as FeaturesSection;
+        const allFeaturesFilled = features.features.every(
+          (feature) =>
+            feature.titleEnglish.trim() !== "" &&
+            feature.titleHungarian.trim() !== "" &&
+            feature.descriptionEnglish.trim() !== "" &&
+            feature.descriptionHungarian.trim() !== ""
+        );
+        setIsFormValid(allFeaturesFilled);
+        break;
+
+      case "story":
+        const story = homeSection as StorySection;
+        const hasStoryTitle = story.title.trim() !== "";
+        const hasStoryHungarianTitle = story.hungarianTitle.trim() !== "";
+        const hasStoryContent = story.content.trim() !== "";
+        const hasStoryHungarianContent = story.hungarianContent.trim() !== "";
+        const hasStoryYoutubeLink = story.youtubeLink.trim() !== "";
+        setIsFormValid(
+          hasStoryTitle &&
+          hasStoryHungarianTitle &&
+          hasStoryContent &&
+          hasStoryHungarianContent &&
+          hasStoryYoutubeLink
+        );
+        break;
+
+      case "foster":
+        const foster = homeSection as FosterSection;
+        const hasFosterTitle = foster.title.trim() !== "";
+        const hasFosterHungarianTitle = foster.hungarianTitle.trim() !== "";
+        const hasFosterContent = foster.content.trim() !== "";
+        const hasFosterHungarianContent = foster.hungarianContent.trim() !== "";
+        const hasFosterImage = foster.imgUrl.trim() !== "";
+        setIsFormValid(
+          hasFosterTitle &&
+          hasFosterHungarianTitle &&
+          hasFosterContent &&
+          hasFosterHungarianContent &&
+          hasFosterImage
+        );
+        break;
+
+      case "breed":
+        const breed = homeSection as BreedSection;
+        const hasBreedTitle = breed.title.trim() !== "";
+        const hasBreedHungarianTitle = breed.hungarianTitle.trim() !== "";
+        const hasBreedContent = breed.content.trim() !== "";
+        const hasBreedHungarianContent = breed.hungarianContent.trim() !== "";
+        const hasBreedImage = breed.imgUrl.trim() !== "";
+        setIsFormValid(
+          hasBreedTitle &&
+          hasBreedHungarianTitle &&
+          hasBreedContent &&
+          hasBreedHungarianContent &&
+          hasBreedImage
+        );
+        break;
+
+      case "successStory":
+        const successStory = homeSection as SuccessStorySection;
+        const hasSuccessStoryTitle = successStory.title.trim() !== "";
+        const hasSuccessStoryHungarianTitle = successStory.hungarianTitle.trim() !== "";
+        const allSuccessImagesFilled = successStory.imgUrls.every((url) => url.trim() !== "");
+        const hasSuccessStoryTitle1 = successStory.title1.trim() !== "";
+        const hasSuccessStoryTitle2 = successStory.title2.trim() !== "";
+        const hasSuccessStoryHungarianTitle1 = successStory.hungarianTitle1.trim() !== "";
+        const hasSuccessStoryHungarianTitle2 = successStory.hungarianTitle2.trim() !== "";
+        setIsFormValid(
+          hasSuccessStoryTitle &&
+          hasSuccessStoryHungarianTitle &&
+          allSuccessImagesFilled &&
+          hasSuccessStoryTitle1 &&
+          hasSuccessStoryTitle2 &&
+          hasSuccessStoryHungarianTitle1 &&
+          hasSuccessStoryHungarianTitle2
+        );
+        break;
+
+      case "testimonial":
+        const testimonials = homeSection as TestimonialSection;
+        const allTestimonialsFilled = testimonials.testimonials.every(
+          (testimonial) =>
+            testimonial.author.trim() !== "" &&
+            testimonial.contentEnglish.trim() !== "" &&
+            testimonial.contentHungarian.trim() !== "" &&
+            testimonial.imgUrl.trim() !== ""
+        );
+        setIsFormValid(allTestimonialsFilled);
+        break;
+
+      default:
+        setIsFormValid(false);
+        break;
     }
   }, [homeSection]);
   

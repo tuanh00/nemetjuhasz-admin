@@ -10,44 +10,58 @@ interface FeaturesSectionFormProps {
 
 const FeaturesSectionForm: React.FC<FeaturesSectionFormProps> = ({ section, handleFeatureChange }) => (
   <>
-    {Array.from({ length: 3 }, (_, index) => (
+    {section.features.map((feature, index) => (
       <div key={index} className="feature-item">
+        {/* Feature Heading */}
+        <h3>Feature {index + 1}</h3>
+
+        {/* English Title Input */}
         <div className="input-box">
-          <label>{`Feature ${index + 1} Title (English):`}</label>
+          <label>English Title</label>
           <input
             type="text"
             placeholder={`Feature ${index + 1} Title in English`}
-            value={section.features[index]?.titleEnglish || ""}
+            value={feature.titleEnglish}
             onChange={(e) => handleFeatureChange(index, "titleEnglish", e.target.value)}
             className="form-control"
+            required
           />
         </div>
+
+        {/* Hungarian Title Input */}
         <div className="input-box">
-          <label>{`Feature ${index + 1} Title (Hungarian):`}</label>
+          <label>Hungarian Title</label>
           <input
             type="text"
             placeholder={`Feature ${index + 1} Title in Hungarian`}
-            value={section.features[index]?.titleHungarian || ""}
+            value={feature.titleHungarian}
             onChange={(e) => handleFeatureChange(index, "titleHungarian", e.target.value)}
             className="form-control"
+            required
           />
         </div>
+
+        {/* English Description Input */}
         <div className="input-box">
-          <label>{`Feature ${index + 1} Description (English):`}</label>
+          <label>English Description</label>
           <textarea
             placeholder={`Feature ${index + 1} Description in English`}
-            value={section.features[index]?.descriptionEnglish || ""}
+            value={feature.descriptionEnglish}
             onChange={(e) => handleFeatureChange(index, "descriptionEnglish", e.target.value)}
             className="form-control"
+            required
           ></textarea>
         </div>
+
+        {/* Hungarian Description Input */}
         <div className="input-box">
-          <label>{`Feature ${index + 1} Description (Hungarian):`}</label>
+          <label>Hungarian Description</label>
           <textarea
             placeholder={`Feature ${index + 1} Description in Hungarian`}
-            value={section.features[index]?.descriptionHungarian || ""}
+            value={feature.descriptionHungarian}
             onChange={(e) => handleFeatureChange(index, "descriptionHungarian", e.target.value)}
             className="form-control"
+            required
           ></textarea>
         </div>
       </div>

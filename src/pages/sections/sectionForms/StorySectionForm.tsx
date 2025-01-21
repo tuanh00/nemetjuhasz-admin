@@ -11,7 +11,7 @@ interface StorySectionFormProps {
 const StorySectionForm: React.FC<StorySectionFormProps> = ({ section, handleChange }) => (
   <div className="story-section-form">
     <div className="input-box">
-      <label>Title:</label>
+      <label>English Title:</label>
       <input
         type="text"
         name="title"
@@ -33,7 +33,7 @@ const StorySectionForm: React.FC<StorySectionFormProps> = ({ section, handleChan
       />
     </div>
     <div className="input-box">
-      <label>Content:</label>
+      <label>English Content:</label>
       <textarea
         name="content"
         placeholder="Content"

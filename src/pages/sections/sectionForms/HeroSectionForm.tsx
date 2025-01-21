@@ -40,9 +40,14 @@ const HeroSectionForm: React.FC<HeroSectionFormProps> = ({
 
   return (
     <>
+    <div className="input-box">
+      <label>English Title:</label>
       <input type="text" name="title" placeholder="English Title" value={section.title} onChange={handleChange} required />
+    </div>
+    <div className="input-box">
+      <label>Hungarian Title:</label>
       <input type="text" name="hungarianTitle" placeholder="Hungarian Title" value={section.hungarianTitle} onChange={handleChange} required />
-
+    </div>
       <div className="input-box">
         <label>Image (Max 1):</label>
         {imagePreview ? (

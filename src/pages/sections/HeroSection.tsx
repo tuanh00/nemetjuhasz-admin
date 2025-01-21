@@ -81,9 +81,7 @@ const HeroSectionEdit: React.FC<HeroSectionEditProps> = ({
       await updateDoc(docRef, {
         imgUrl: sectionData.imgUrl,
         title: sectionData.title,
-        content: sectionData.content,
         hungarianTitle: sectionData.hungarianTitle,
-        hungarianContent: sectionData.hungarianContent,
       });
       setMessage('Changes saved successfully.');
       setIsSuccess(true);
@@ -125,30 +123,6 @@ const HeroSectionEdit: React.FC<HeroSectionEditProps> = ({
           value={sectionData.hungarianTitle}
           onChange={handleChange}
         />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="content" className="form-label">
-          English Content
-        </label>
-        <textarea
-          id="content"
-          name="content"
-          className="form-control"
-          value={sectionData.content}
-          onChange={handleChange}
-        ></textarea>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="hungarianContent" className="form-label">
-          Hungarian Content
-        </label>
-        <textarea
-          id="hungarianContent"
-          name="hungarianContent"
-          className="form-control"
-          value={sectionData.hungarianContent}
-          onChange={handleChange}
-        ></textarea>
       </div>
       <div className="mb-3">
         <label htmlFor="imgUrl" className="form-label">

@@ -27,6 +27,10 @@ import UpdatePetDetails from "./pages/UpdatePetDetails";
 import AddHomeSection from "./pages/AddHomeSection";
 import EditHomeSection from "./pages/EditHomeSection";
 import HomeSectionList from "./pages/HomeSectionList";
+import AddAboutUsSection from "./pages/about/AddAboutUsSection";
+import EditAboutUsSection from "./pages/about/EditAboutUsSection";
+import AboutUsSectionList from "./pages/about/AboutUsSectionList"; 
+
 const App = () => {
   return (
     <Router>
@@ -83,6 +87,32 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        {/* Add new routes for about us sections */}
+        <Route
+          path="/aboutus-sections"
+          element={
+            <ProtectedRoute>
+              <AboutUsSectionList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/add-aboutus-section"
+          element={
+            <ProtectedRoute>
+              <AddAboutUsSection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-aboutus-section/:id"
+          element={
+            <ProtectedRoute>
+              <EditAboutUsSection />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Route for Adoptable Pet Editor - uploading images for a pet*/}
         <Route
           path="/adoptable-pet-editor/:petId"
@@ -92,8 +122,9 @@ const App = () => {
             </ProtectedRoute>
           }
         />
- {/* Add new routes for home sections */}
- <Route path="/home-sections" element={<HomeSectionList />} />
+
+        {/* Add new routes for home sections */}
+        <Route path="/home-sections" element={<HomeSectionList />} />
         <Route path="/add-home-section" element={<AddHomeSection />} />
         <Route path="/edit-home-section/:id" element={<EditHomeSection />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

@@ -49,6 +49,18 @@ const Sidebar = () => {
               Icon={IoMdAdd}
               location={location}
             />
+            <Li
+            url="/aboutus-sections"
+            text="About Us Sections"
+            Icon={FaHome}
+            location={location}
+            />
+            <Li
+            url = "/add-aboutus-section"
+            text = "Add About Us Section"
+            Icon={IoMdAdd}
+            location={location}
+            />
           </ul>
         </div>
       </aside>

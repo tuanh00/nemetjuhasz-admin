@@ -23,19 +23,7 @@ export interface AdoptablePet {
   content: string; 
 }
 
-// export interface HomeSection {
-//   id?: string; 
-//   sectionType: string;
-//   title: string;
-//   content: string;
-//   imgUrls: string[];
-//   youtubeLink?: string;
-//   hungarianTitle?: string;
-//   hungarianContent?: string;
-//   createdAt?: FieldValue; 
-//   updatedAt?: FieldValue;
-// }
-
+// HOME SECTION TYPES
 export interface HeroSection {
   id?: string;
   sectionType: "hero";
@@ -104,6 +92,21 @@ export interface TestimonialSection {
   }>;
 }
 
-
 export type HomeSection = HeroSection | FeaturesSection | StorySection | FosterSection | BreedSection | SuccessStorySection | TestimonialSection;
+
+// END OF HOME SECTION TYPES
+
+// ABOUT US SECTION TYPES
+export interface AboutUsSection {
+  id?: string;
+  englishTitle: string;
+  hungarianTitle: string;
+  subEnglishTitle?: string;
+  subHungarianTitle?: string;
+  imageUrl: string;
+  contentEnglish: string;
+  contentHungarian: string;
+}
+
+//END ABOUT US SECTION TYPES
 

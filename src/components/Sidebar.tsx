@@ -61,6 +61,9 @@ const Sidebar = () => {
             Icon={IoMdAdd}
             location={location}
             />
+            {/* About Us - Sponsors */}
+            <Li url="/add-sponsor-section" text="Add Sponsor Section" Icon={IoMdAdd} location={location} />
+
           </ul>
         </div>
       </aside>

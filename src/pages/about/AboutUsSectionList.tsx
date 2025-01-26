@@ -5,7 +5,7 @@ import Sidebar from "../../components/Sidebar";
 import { AboutUsSection } from "../../firebase/types";
 import { getAboutUsSections, deleteAboutUsSection } from "../../firebase/AboutUsService";
 import { Link } from "react-router-dom";
-import "../../styles/_aboutussectionlist.scss"; // Ensure this SCSS file exists
+import "../../styles/aboutus/_aboutussectionlist.scss"; // Ensure this SCSS file exists
 
 const AboutUsSectionList: React.FC = () => {
   const [sections, setSections] = useState<AboutUsSection[]>([]);

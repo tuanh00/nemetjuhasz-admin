@@ -110,3 +110,36 @@ export interface AboutUsSection {
 
 //END ABOUT US SECTION TYPES
 
+//OUR SPONSOORS SECTION TYPES
+
+export interface Sponsor {
+  imageUrl: string;
+  linkTitle: string;
+  link: string;
+}
+
+export interface Foster {
+  imageUrls: string[];
+  fosterName: string;
+}
+
+export interface Volunteer {
+  imageUrls: string[];
+  volunteerName: string;
+}
+
+export interface BecomeASponsor {
+  titleEnglish: string;
+  titleHungarian: string;
+  contentEnglish: string;
+  contentHungarian: string;
+}
+
+export interface OurSponsorSection {
+  id?: string;
+  sectionType: "sponsors" | "fosters" | "volunteers" | "becomeASponsor";
+  sponsors?: Sponsor[];
+  fosters?: Foster[];
+  volunteers?: Volunteer[];
+  becomeASponsor?: BecomeASponsor;
+}

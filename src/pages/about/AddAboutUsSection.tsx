@@ -5,7 +5,7 @@ import AboutUsSectionForm from "../sections/aboutUsForms/AboutUsSectionForm";
 import AboutUsSectionPreview from "../previews/AboutUs/AboutUsSectionPreview"; // Import the Preview component
 import { AboutUsSection } from "../../firebase/types";
 import { addAboutUsSection } from "../../firebase/AboutUsService";
-import "../../styles/_addaboutussection.scss";
+import "../../styles/aboutus/_addaboutussection.scss";
 
 const AddAboutUsSection: React.FC = () => {
   const [aboutUs, setAboutUs] = useState<AboutUsSection>({

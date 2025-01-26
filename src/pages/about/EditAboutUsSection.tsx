@@ -6,7 +6,7 @@ import { db, storage } from "../../firebase/Firebase";
 import { getAboutUsSection } from "../../firebase/AboutUsService";
 import { AboutUsSection } from "../../firebase/types";
 import Sidebar from "../../components/Sidebar";
-import "../../styles/_editaboutussection.scss";
+import "../../styles/aboutus/_editaboutussection.scss";
 
 const EditAboutUsSection: React.FC = () => {
   const { id } = useParams<{ id: string }>();

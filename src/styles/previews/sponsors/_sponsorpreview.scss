@@ -1,0 +1,66 @@
+.sponsor-preview {
+    background-color: #f8f9fa; // Light background
+    padding: 3rem 0;
+  
+    .sponsor-section-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #333;
+      text-align: left; // Align title to the left
+      margin-bottom: 2rem;
+    }
+  
+    .row {
+      margin-bottom: 2rem; // Spacing between rows
+    }
+  
+    .sponsor-logo {
+      width: 100px; // Fixed width
+      height: 100px; // Fixed height
+      object-fit: contain; // Maintain aspect ratio
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+  
+      &:hover {
+        box-shadow: none; // Remove hover effect
+      }
+    }
+  
+    .sponsor-link,
+    .sponsor-name {
+      text-decoration: underline; // Underline for links
+      font-size: 1rem;
+      font-weight: 500;
+      color: #007bff; // Blue color for links
+      margin-top: 0.5rem;
+      display: block; // Ensure proper spacing
+    }
+  
+    @media (max-width: 768px) {
+      .sponsor-section-title {
+        font-size: 2rem;
+      }
+  
+      .sponsor-logo {
+        width: 80px;
+        height: 80px;
+      }
+  
+      .sponsor-name {
+        font-size: 0.9rem;
+      }
+    }
+  
+    @media (max-width: 576px) {
+      .sponsor-logo {
+        width: 70px;
+        height: 70px;
+      }
+  
+      .sponsor-name {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  

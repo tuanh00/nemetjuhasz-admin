@@ -30,6 +30,7 @@ import HomeSectionList from "./pages/HomeSectionList";
 import AddAboutUsSection from "./pages/about/AddAboutUsSection";
 import EditAboutUsSection from "./pages/about/EditAboutUsSection";
 import AboutUsSectionList from "./pages/about/AboutUsSectionList"; 
+import AddOurSponsorSection from "./pages/sections/AddOurSponsorSection";
 
 const App = () => {
   return (
@@ -112,7 +113,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+        {/* Add new routes for our sponsor sections */}
+        <Route
+  path="/add-sponsor-section"
+  element={
+    <ProtectedRoute>
+      <AddOurSponsorSection />
+    </ProtectedRoute>
+  }
+/>
         {/* Route for Adoptable Pet Editor - uploading images for a pet*/}
         <Route
           path="/adoptable-pet-editor/:petId"

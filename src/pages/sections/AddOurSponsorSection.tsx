@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import SponsorSectionForm from "./aboutUsForms/Sponsors/SponsorSectionForm";
 import FosterSectionForm from "./aboutUsForms/Sponsors/FosterSectionForm";
+import VolunteerSectionForm from "./aboutUsForms/Sponsors/VolunteerSectionForm"; // Import Volunteer form
 import SponsorSectionPreview from "../previews/AboutUs/Sponsors/SponsorSectionPreview";
 import FosterSectionPreview from "../previews/AboutUs/Sponsors/FosterSectionPreview";
+import VolunteerSectionPreview from "../previews/AboutUs/Sponsors/VolunteerSectionPreview"; // Import Volunteer preview
 import { addOurSponsorSection } from "../../firebase/OurSponsorService";
 import { OurSponsorSection } from "../../firebase/types";
 import "../../styles/aboutus/sponsors/_addsponsorsection.scss";
@@ -26,6 +28,13 @@ const AddOurSponsorSection: React.FC = () => {
         setSection({
           sectionType: "fosters",
           fosters: Array(5).fill({ imageUrl: "", fosterName: "" }),
+        });
+        setImageFiles(Array(5).fill(null));
+        break;
+      case "volunteers": // New case for volunteers
+        setSection({
+          sectionType: "volunteers",
+          volunteers: Array(5).fill({ imageUrl: "", volunteerName: "" }),
         });
         setImageFiles(Array(5).fill(null));
         break;
@@ -59,6 +68,16 @@ const AddOurSponsorSection: React.FC = () => {
       };
       setSection({ ...section, fosters: updatedFosters });
     }
+
+    // Update volunteers
+    if (section?.sectionType === "volunteers" && section.volunteers) {
+      const updatedVolunteers = [...section.volunteers];
+      updatedVolunteers[index] = {
+        ...updatedVolunteers[index],
+        imageUrl: file ? URL.createObjectURL(file) : "",
+      };
+      setSection({ ...section, volunteers: updatedVolunteers });
+    }
   };
 
   const handleSubmit = async () => {
@@ -88,6 +107,8 @@ const AddOurSponsorSection: React.FC = () => {
         return <SponsorSectionPreview sponsors={section.sponsors || []} />;
       case "fosters":
         return <FosterSectionPreview fosters={section.fosters || []} />;
+      case "volunteers": // New preview case for volunteers
+        return <VolunteerSectionPreview volunteers={section.volunteers || []} />;
       default:
         return null;
     }
@@ -105,6 +126,7 @@ const AddOurSponsorSection: React.FC = () => {
           <option value="">Select Section Type</option>
           <option value="sponsors">Sponsors</option>
           <option value="fosters">Fosters</option>
+          <option value="volunteers">Volunteers</option> {/* New option for volunteers */}
         </select>
 
         {section?.sectionType === "sponsors" && (
@@ -119,6 +141,14 @@ const AddOurSponsorSection: React.FC = () => {
           <FosterSectionForm
             fosters={section.fosters || []}
             onUpdate={(data) => setSection({ ...section, fosters: data })}
+            onImageFileChange={handleImageFileChange}
+          />
+        )}
+
+        {section?.sectionType === "volunteers" && (
+          <VolunteerSectionForm
+            volunteers={section.volunteers || []}
+            onUpdate={(data) => setSection({ ...section, volunteers: data })}
             onImageFileChange={handleImageFileChange}
           />
         )}

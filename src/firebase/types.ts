@@ -133,6 +133,7 @@ export interface BecomeASponsor {
   titleHungarian: string;
   contentEnglish: string;
   contentHungarian: string;
+  imageUrl: string;
 }
 
 export interface OurSponsorSection {

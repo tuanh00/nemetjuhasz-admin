@@ -110,8 +110,7 @@ export interface AboutUsSection {
 
 //END ABOUT US SECTION TYPES
 
-//OUR SPONSOORS SECTION TYPES
-
+//OUR SPONSOR SECTION TYPES
 export interface Sponsor {
   imageUrl: string;
   linkTitle: string;
@@ -142,5 +141,6 @@ export interface OurSponsorSection {
   sponsors?: Sponsor[];
   fosters?: Foster[];
   volunteers?: Volunteer[];
-  becomeASponsor?: BecomeASponsor;
+  becomeASponsor?: BecomeASponsor[];
 }
+//END OUR SPONSOR SECTION TYPES

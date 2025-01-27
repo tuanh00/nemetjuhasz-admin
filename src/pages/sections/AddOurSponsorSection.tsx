@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import SponsorSectionForm from "./aboutUsForms/Sponsors/SponsorSectionForm";
 import FosterSectionForm from "./aboutUsForms/Sponsors/FosterSectionForm";
-import VolunteerSectionForm from "./aboutUsForms/Sponsors/VolunteerSectionForm"; // Import Volunteer form
+import VolunteerSectionForm from "./aboutUsForms/Sponsors/VolunteerSectionForm";
+import BecomeASponsorSectionForm from "./aboutUsForms/Sponsors/BecomeASponsorSectionForm"; // Import Become a Sponsor form
 import SponsorSectionPreview from "../previews/AboutUs/Sponsors/SponsorSectionPreview";
 import FosterSectionPreview from "../previews/AboutUs/Sponsors/FosterSectionPreview";
-import VolunteerSectionPreview from "../previews/AboutUs/Sponsors/VolunteerSectionPreview"; // Import Volunteer preview
+import VolunteerSectionPreview from "../previews/AboutUs/Sponsors/VolunteerSectionPreview";
+import BecomeASponsorPreview from "../previews/AboutUs/Sponsors/BecomeASponsorPreview"; // Import Become a Sponsor preview
 import { addOurSponsorSection } from "../../firebase/OurSponsorService";
 import { OurSponsorSection } from "../../firebase/types";
 import "../../styles/aboutus/sponsors/_addsponsorsection.scss";
@@ -31,12 +33,25 @@ const AddOurSponsorSection: React.FC = () => {
         });
         setImageFiles(Array(5).fill(null));
         break;
-      case "volunteers": // New case for volunteers
+      case "volunteers":
         setSection({
           sectionType: "volunteers",
           volunteers: Array(5).fill({ imageUrl: "", volunteerName: "" }),
         });
         setImageFiles(Array(5).fill(null));
+        break;
+      case "becomeASponsor": // New case for Become a Sponsor
+        setSection({
+          sectionType: "becomeASponsor",
+          becomeASponsor: Array(1).fill({
+            titleEnglish: "",
+            titleHungarian: "",
+            contentEnglish: "",
+            contentHungarian: "",
+            imageUrl: "",
+          }),
+        });
+        setImageFiles([null]);
         break;
       default:
         setSection(null);
@@ -49,7 +64,6 @@ const AddOurSponsorSection: React.FC = () => {
     updatedFiles[index] = file;
     setImageFiles(updatedFiles);
 
-    // Update sponsors
     if (section?.sectionType === "sponsors" && section.sponsors) {
       const updatedSponsors = [...section.sponsors];
       updatedSponsors[index] = {
@@ -59,7 +73,6 @@ const AddOurSponsorSection: React.FC = () => {
       setSection({ ...section, sponsors: updatedSponsors });
     }
 
-    // Update fosters
     if (section?.sectionType === "fosters" && section.fosters) {
       const updatedFosters = [...section.fosters];
       updatedFosters[index] = {
@@ -69,7 +82,6 @@ const AddOurSponsorSection: React.FC = () => {
       setSection({ ...section, fosters: updatedFosters });
     }
 
-    // Update volunteers
     if (section?.sectionType === "volunteers" && section.volunteers) {
       const updatedVolunteers = [...section.volunteers];
       updatedVolunteers[index] = {
@@ -77,6 +89,15 @@ const AddOurSponsorSection: React.FC = () => {
         imageUrl: file ? URL.createObjectURL(file) : "",
       };
       setSection({ ...section, volunteers: updatedVolunteers });
+    }
+
+    if (section?.sectionType === "becomeASponsor" && section.becomeASponsor) {
+      const updatedBecomeASponsor = [...section.becomeASponsor];
+      updatedBecomeASponsor[index] = {
+        ...updatedBecomeASponsor[index],
+        imageUrl: file ? URL.createObjectURL(file) : "",
+      };
+      setSection({ ...section, becomeASponsor: updatedBecomeASponsor });
     }
   };
 
@@ -107,8 +128,14 @@ const AddOurSponsorSection: React.FC = () => {
         return <SponsorSectionPreview sponsors={section.sponsors || []} />;
       case "fosters":
         return <FosterSectionPreview fosters={section.fosters || []} />;
-      case "volunteers": // New preview case for volunteers
+      case "volunteers":
         return <VolunteerSectionPreview volunteers={section.volunteers || []} />;
+        case "becomeASponsor": // Fix for Become a Sponsor
+        return (
+          section.becomeASponsor && section.becomeASponsor.length > 0 ? (
+            <BecomeASponsorPreview section={section.becomeASponsor[0]} />
+          ) : null
+        );
       default:
         return null;
     }
@@ -126,7 +153,8 @@ const AddOurSponsorSection: React.FC = () => {
           <option value="">Select Section Type</option>
           <option value="sponsors">Sponsors</option>
           <option value="fosters">Fosters</option>
-          <option value="volunteers">Volunteers</option> {/* New option for volunteers */}
+          <option value="volunteers">Volunteers</option>
+          <option value="becomeASponsor">Become a Sponsor</option> {/* New option */}
         </select>
 
         {section?.sectionType === "sponsors" && (
@@ -150,6 +178,14 @@ const AddOurSponsorSection: React.FC = () => {
             volunteers={section.volunteers || []}
             onUpdate={(data) => setSection({ ...section, volunteers: data })}
             onImageFileChange={handleImageFileChange}
+          />
+        )}
+
+        {section?.sectionType === "becomeASponsor" && (
+          <BecomeASponsorSectionForm
+            becomeASponsor={section.becomeASponsor || []}
+            onUpdate={(data) => setSection({ ...section, becomeASponsor: data })}
+            onImageFileChange={(file, index) => handleImageFileChange(file, index)}
           />
         )}
 

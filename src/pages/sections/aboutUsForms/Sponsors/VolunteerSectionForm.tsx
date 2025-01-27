@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Volunteer } from "../../../../firebase/types";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../../firebase/Firebase"; // Ensure you import Firebase storage
 
 interface VolunteerSectionFormProps {
   volunteers: Volunteer[];
@@ -13,42 +15,50 @@ const VolunteerSectionForm: React.FC<VolunteerSectionFormProps> = ({
   onImageFileChange,
 }) => {
   const [localVolunteers, setLocalVolunteers] = useState<Volunteer[]>(volunteers);
-  const [imagePreviews, setImagePreviews] = useState<string[]>(
-    Array(volunteers.length).fill("")
-  );
+  const [imagePreviews, setImagePreviews] = useState<string[]>(Array(volunteers.length).fill(""));
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setLocalVolunteers(volunteers);
   }, [volunteers]);
 
-  const handleInputChange = (
-    index: number,
-    field: keyof Volunteer,
-    value: string
-  ) => {
+  const handleInputChange = (index: number, field: keyof Volunteer, value: string) => {
     const updatedVolunteers = [...localVolunteers];
     updatedVolunteers[index] = { ...updatedVolunteers[index], [field]: value };
     setLocalVolunteers(updatedVolunteers);
     onUpdate(updatedVolunteers);
   };
 
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      const previewUrl = URL.createObjectURL(file);
-
-      const updatedPreviews = [...imagePreviews];
-      updatedPreviews[index] = previewUrl; // Update preview for UI
-      setImagePreviews(updatedPreviews);
-
       onImageFileChange(file, index);
 
-      setMessage("Image added successfully!");
-      setTimeout(() => setMessage(null), 3000); // Clear message after 3 seconds
+      try {
+        // Upload the file to Firebase Storage
+        const storageRef = ref(storage, `volunteers/${file.name}`);
+        await uploadBytes(storageRef, file);
+
+        // Get the public URL of the uploaded file
+        const uploadedUrl = await getDownloadURL(storageRef);
+
+        // Update image previews and local volunteers with the Firebase URL
+        const updatedPreviews = [...imagePreviews];
+        updatedPreviews[index] = uploadedUrl;
+        setImagePreviews(updatedPreviews);
+
+        const updatedVolunteers = [...localVolunteers];
+        updatedVolunteers[index] = { ...updatedVolunteers[index], imageUrl: uploadedUrl };
+        setLocalVolunteers(updatedVolunteers);
+        onUpdate(updatedVolunteers);
+
+        setMessage("Image uploaded successfully!");
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        setMessage("Failed to upload image.");
+      }
+
+      setTimeout(() => setMessage(null), 3000);
     }
   };
 
@@ -57,7 +67,7 @@ const VolunteerSectionForm: React.FC<VolunteerSectionFormProps> = ({
     if (!confirmDelete) return;
 
     const updatedPreviews = [...imagePreviews];
-    updatedPreviews[index] = ""; // Clear the preview
+    updatedPreviews[index] = "";
     setImagePreviews(updatedPreviews);
 
     const updatedVolunteers = [...localVolunteers];
@@ -68,7 +78,7 @@ const VolunteerSectionForm: React.FC<VolunteerSectionFormProps> = ({
     onImageFileChange(null, index);
 
     setMessage("Image removed successfully!");
-    setTimeout(() => setMessage(null), 3000); // Clear message after 3 seconds
+    setTimeout(() => setMessage(null), 3000);
   };
 
   return (
@@ -99,13 +109,14 @@ const VolunteerSectionForm: React.FC<VolunteerSectionFormProps> = ({
           </div>
 
           <div className="input-box">
-            <label>Image (Max 1):</label>
+            <label>Image:</label>
             {imagePreviews[index] ? (
               <div className="image-preview-grid">
                 <div className="image-preview">
                   <img
                     src={imagePreviews[index]}
                     alt={`Volunteer ${index + 1} Preview`}
+                    className="preview-img"
                   />
                   <button
                     className="remove-btn"

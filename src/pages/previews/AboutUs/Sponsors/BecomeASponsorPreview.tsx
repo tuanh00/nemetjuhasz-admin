@@ -1,6 +1,6 @@
 import React from "react";
 import { BecomeASponsor } from "../../../../firebase/types";
-import "../../../../styles/previews/sponsors/_becomeASponsor.scss";
+import "../../../../styles/previews/sponsors/_becomeASponsorPreview.scss";
 
 interface BecomeASponsorPreviewProps {
   section: BecomeASponsor;

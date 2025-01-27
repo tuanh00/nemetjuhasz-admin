@@ -7,7 +7,7 @@ import {
 // import { Suspense } from "react";
 // import Loader from "./components/Loader";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdoptablePetEditor  from './pages/AdoptablePetEditor';
+import AdoptablePetEditor from "./pages/pet/AdoptablePetEditor";
 
 // const Login = lazy(() => import("./pages/Login"));
 // const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -18,19 +18,19 @@ import AdoptablePetEditor  from './pages/AdoptablePetEditor';
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Pets from "./pages/Pets";
-import AddPets from "./pages/AddPets";
+import Pets from "./pages/pet/Pets";
+import AddPets from "./pages/pet/AddPets";
 // import UpdatePets from "./pages/UpdatePets";
 // import DeletePets from "./pages/DeletePets";
 import UpdatePetDetails from "./pages/UpdatePetDetails";
 // import UpdatePets from "./pages/UpdatePets";
-import AddHomeSection from "./pages/AddHomeSection";
-import EditHomeSection from "./pages/EditHomeSection";
-import HomeSectionList from "./pages/HomeSectionList";
+import AddHomeSection from "./pages/home/AddHomeSection";
+import EditHomeSection from "./pages/home/EditHomeSection";
+import HomeSectionList from "./pages/home/HomeSectionList";
 import AddAboutUsSection from "./pages/about/AddAboutUsSection";
 import EditAboutUsSection from "./pages/about/EditAboutUsSection";
-import AboutUsSectionList from "./pages/about/AboutUsSectionList"; 
-import AddOurSponsorSection from "./pages/sections/AddOurSponsorSection";
+import AboutUsSectionList from "./pages/about/AboutUsSectionList";
+import AddOurSponsorSection from "./pages/sponsor/AddOurSponsorSection";
 
 const App = () => {
   return (
@@ -115,19 +115,19 @@ const App = () => {
         />
         {/* Add new routes for our sponsor sections */}
         <Route
-  path="/add-sponsor-section"
-  element={
-    <ProtectedRoute>
-      <AddOurSponsorSection />
-    </ProtectedRoute>
-  }
-/>
+          path="/add-sponsor-section"
+          element={
+            <ProtectedRoute>
+              <AddOurSponsorSection />
+            </ProtectedRoute>
+          }
+        />
         {/* Route for Adoptable Pet Editor - uploading images for a pet*/}
         <Route
           path="/adoptable-pet-editor/:petId"
           element={
             <ProtectedRoute>
-              <AdoptablePetEditor  />
+              <AdoptablePetEditor />
             </ProtectedRoute>
           }
         />

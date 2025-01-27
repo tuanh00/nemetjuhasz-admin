@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation after submission
 import Sidebar from "../../components/Sidebar";
 import AboutUsSectionForm from "../sections/aboutUsForms/AboutUsSectionForm";
-import AboutUsSectionPreview from "../previews/AboutUs/AboutUsSectionPreview"; // Import the Preview component
+import AboutUsSectionPreview from "../previews/AboutUs/AboutUsSectionPreview";
 import { AboutUsSection } from "../../firebase/types";
 import { addAboutUsSection } from "../../firebase/AboutUsService";
 import "../../styles/aboutus/_addaboutussection.scss";

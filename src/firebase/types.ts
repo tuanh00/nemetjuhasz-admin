@@ -119,12 +119,12 @@ export interface Sponsor {
 }
 
 export interface Foster {
-  imageUrls: string[];
+  imageUrl: string;
   fosterName: string;
 }
 
 export interface Volunteer {
-  imageUrls: string[];
+  imageUrl: string;
   volunteerName: string;
 }
 

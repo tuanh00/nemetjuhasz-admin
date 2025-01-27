@@ -1,4 +1,5 @@
 .sponsor-preview {
+
     background-color: #f8f9fa; // Light background
     padding: 3rem 0;
   
@@ -30,8 +31,10 @@
     .sponsor-link,
     .sponsor-name {
       text-decoration: underline; // Underline for links
-      font-size: 1rem;
-      font-weight: 500;
+      //underline color
+      text-decoration-color: #333;
+      font-size: 2rem;
+      font-weight: light;
       color: #007bff; // Blue color for links
       margin-top: 0.5rem;
       display: block; // Ensure proper spacing

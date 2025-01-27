@@ -33,29 +33,50 @@ export const addOurSponsorSection = async (
         sponsors.map(async (sponsor, index) => {
           const file = imageFiles[index];
           if (file) {
-            // Upload the image to Firebase Storage
-            const storageRef = ref(storage, `our_sponsors/${Date.now()}_${file.name}`);
-            await uploadBytes(storageRef, file); // Upload file
-            const downloadUrl = await getDownloadURL(storageRef); // Get the download URL
-
-            // Assign the Firebase Storage URL to the sponsor's imageUrl field
+            const storageRef = ref(
+              storage,
+              `our_sponsors/${Date.now()}_${file.name}`
+            );
+            await uploadBytes(storageRef, file);
+            const downloadUrl = await getDownloadURL(storageRef);
             sponsor.imageUrl = downloadUrl;
           }
         })
       );
 
-      // Assign updated sponsors to the section
       updatedSection.sponsors = sponsors;
+    }
+
+    // Handle fosters section with image uploads
+    if (sponsorSection.sectionType === "fosters" && sponsorSection.fosters) {
+      const fosters = [...sponsorSection.fosters];
+      await Promise.all(
+        fosters.map(async (foster, index) => {
+          const file = imageFiles[index];
+          if (file) {
+            const storageRef = ref(
+              storage,
+              `our_fosters/${Date.now()}_${file.name}`
+            );
+            await uploadBytes(storageRef, file);
+            const downloadUrl = await getDownloadURL(storageRef);
+            foster.imageUrl = downloadUrl;
+          }
+        })
+      );
+
+      updatedSection.fosters = fosters;
     }
 
     // Save the updated section to Firestore
     const docRef = await addDoc(ourSponsorsCollection, updatedSection);
-    console.log("Our Sponsor Section added with ID:", docRef.id);
-  } catch (e) {
-    console.error("Error adding Our Sponsor section:", e);
-    throw e;
+    console.log("Section added with ID:", docRef.id);
+  } catch (error) {
+    console.error("Error adding section:", error);
+    throw error;
   }
 };
+
 
 /**
  * Retrieve all Our Sponsor sections from Firestore.

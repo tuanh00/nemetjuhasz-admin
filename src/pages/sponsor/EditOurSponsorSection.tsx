@@ -7,6 +7,7 @@ import {
   updateOurSponsorSection,
 } from "../../firebase/OurSponsorService";
 import VolunteerSectionEdit from "../sections/sponsorForms/VolunteerSectionEdit";
+import BecomeASponsorSectionEdit from "../sections/sponsorForms/BecomeASponsorSectionEdit";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase/Firebase";
 
@@ -53,15 +54,27 @@ const EditOurSponsorSection: React.FC = () => {
     if (!sponsorSection) return;
 
     try {
-      const storageRef = ref(storage, `volunteers/${file.name}`);
+      const storageRef = ref(storage, `${sectionType}/${file.name}`);
       await uploadBytes(storageRef, file);
       const downloadUrl = await getDownloadURL(storageRef);
 
       setSponsorSection((prev) => {
-        if (!prev?.volunteers) return prev;
-        const updatedVolunteers = [...prev.volunteers];
-        updatedVolunteers[index].imageUrl = downloadUrl;
-        return { ...prev, volunteers: updatedVolunteers };
+        if (!prev) return prev;
+
+        // Type guard to ensure we only update the correct section type
+        if (sectionType === "volunteers" && prev.volunteers) {
+          const updatedVolunteers = [...prev.volunteers];
+          updatedVolunteers[index].imageUrl = downloadUrl;
+          return { ...prev, volunteers: updatedVolunteers };
+        }
+
+        if (sectionType === "becomeASponsor" && prev.becomeASponsor) {
+          const updatedData = [...prev.becomeASponsor];
+          updatedData[index].imageUrl = downloadUrl;
+          return { ...prev, becomeASponsor: updatedData };
+        }
+
+        return prev; // Return the state unchanged if no matching section type
       });
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -69,29 +82,50 @@ const EditOurSponsorSection: React.FC = () => {
   };
 
   const renderSectionEditForm = () => {
-    if (sectionType === "volunteers") {
-      return (
-        <VolunteerSectionEdit
-          sectionData={sponsorSection?.volunteers || []}
-          onUpdate={(updatedVolunteers) =>
-            setSponsorSection((prev) =>
-              prev ? { ...prev, volunteers: updatedVolunteers } : null
-            )
-          }
-          onRemoveImage={(index) => {
-            setSponsorSection((prev) => {
-              if (!prev?.volunteers) return prev;
-              const updatedVolunteers = [...prev.volunteers];
-              updatedVolunteers[index].imageUrl = "";
-              return { ...prev, volunteers: updatedVolunteers };
-            });
-          }}
-          onUploadImage={handleUploadImage}
-        />
-      );
+    switch (sectionType) {
+      case "volunteers":
+        return (
+          <VolunteerSectionEdit
+            sectionData={sponsorSection?.volunteers || []}
+            onUpdate={(updatedVolunteers) =>
+              setSponsorSection((prev) =>
+                prev ? { ...prev, volunteers: updatedVolunteers } : null
+              )
+            }
+            onRemoveImage={(index) => {
+              setSponsorSection((prev) => {
+                if (!prev?.volunteers) return prev;
+                const updatedVolunteers = [...prev.volunteers];
+                updatedVolunteers[index].imageUrl = "";
+                return { ...prev, volunteers: updatedVolunteers };
+              });
+            }}
+            onUploadImage={handleUploadImage}
+          />
+        );
+      case "becomeASponsor":
+        return (
+          <BecomeASponsorSectionEdit
+            sectionData={sponsorSection?.becomeASponsor || []}
+            onUpdate={(updatedData) =>
+              setSponsorSection((prev) =>
+                prev ? { ...prev, becomeASponsor: updatedData } : null
+              )
+            }
+            onRemoveImage={(index) => {
+              setSponsorSection((prev) => {
+                if (!prev?.becomeASponsor) return prev;
+                const updatedData = [...prev.becomeASponsor];
+                updatedData[index].imageUrl = "";
+                return { ...prev, becomeASponsor: updatedData };
+              });
+            }}
+            onUploadImage={handleUploadImage}
+          />
+        );
+      default:
+        return <p>Unsupported section type</p>;
     }
-
-    return <p>Unsupported section type</p>;
   };
 
   return (

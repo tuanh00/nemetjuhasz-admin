@@ -31,6 +31,8 @@ import AddAboutUsSection from "./pages/about/AddAboutUsSection";
 import EditAboutUsSection from "./pages/about/EditAboutUsSection";
 import AboutUsSectionList from "./pages/about/AboutUsSectionList";
 import AddOurSponsorSection from "./pages/sponsor/AddOurSponsorSection";
+import OurSponsorSectionList from "./pages/sponsor/OurSponsorSectionList";
+import EditOurSponsorSection from "./pages/sponsor/EditOurSponsorSection";
 
 const App = () => {
   return (
@@ -119,6 +121,22 @@ const App = () => {
           element={
             <ProtectedRoute>
               <AddOurSponsorSection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/our-sponsor-sections"
+          element={
+            <ProtectedRoute>
+              <OurSponsorSectionList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-sponsor-section/:sectionType/:id"
+          element={
+            <ProtectedRoute>
+              <EditOurSponsorSection />
             </ProtectedRoute>
           }
         />

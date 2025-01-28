@@ -1,0 +1,89 @@
+.our-sponsor-section-list-container {
+    padding: 2rem;
+  
+    @media (max-width: 768px) {
+      padding: 1rem;
+      width: 100%;
+    }
+  
+    > h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+  
+    .message-box {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+  
+      &.success {
+        background-color: rgba(0, 255, 0, 0.1);
+        color: green;
+      }
+  
+      &.error {
+        background-color: rgba(255, 0, 0, 0.1);
+        color: red;
+      }
+    }
+  
+    .our-sponsor-section-table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th,
+      td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+  
+      th {
+        background-color: #f9f9f9;
+      }
+  
+      tr {
+        background-color: white;
+        transition: background-color 0.2s ease;
+      }
+  
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+  
+      @media (max-width: 768px) {
+        th,
+        td {
+          padding: 0.5rem;
+        }
+      }
+    }
+  
+    .edit-btn,
+    .delete-btn {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .edit-btn {
+      background-color: #007bff;
+      color: white;
+    }
+  
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+  
+    .edit-btn:hover {
+      background-color: #0056b3;
+    }
+  
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+  }
+  

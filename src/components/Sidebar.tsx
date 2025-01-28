@@ -6,6 +6,7 @@ import { MdPets } from "react-icons/md";
 import { Link, Location, useLocation } from "react-router-dom";
 import { IoMenu } from "react-icons/io5"; // Hamburger icon
 import { FaHome } from "react-icons/fa"; // Home icon
+import { FaUsers } from "react-icons/fa"; // Icon for sponsors or volunteers
 
 const Sidebar = () => {
   const location = useLocation();
@@ -60,6 +61,12 @@ const Sidebar = () => {
             text = "Add About Us Section"
             Icon={IoMdAdd}
             location={location}
+            />
+            <Li
+              url="/our-sponsor-sections"
+              text="Our Sponsor Sections"
+              Icon={FaUsers}
+              location={location}
             />
             {/* About Us - Sponsors */}
             <Li url="/add-sponsor-section" text="Add Sponsor Section" Icon={IoMdAdd} location={location} />

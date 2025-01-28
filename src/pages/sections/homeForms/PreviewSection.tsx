@@ -12,10 +12,10 @@ import {
 import BreedSectionPreview from "../../previews/Home/BreedSectionPreview";
 import FeatureSectionPreview from "../../previews/Home/FeatureSectionPreview";
 import FosterSectionPreview from "../../previews/Home/FosterSectionPreview";
-import HeroSectionPreview from "../../previews/HeroSectionPreview";
-import StorySectionPreview from "../../previews/StorySectionPreview";
-import SuccessSectionPreview from "../../previews/SuccessSectionPreview";
-import TestimonialSectionPreview from "../../previews/TestimonialSectionPreview";
+import HeroSectionPreview from "../../previews/Home/HeroSectionPreview";
+import StorySectionPreview from "../../previews/Home/StorySectionPreview";
+import SuccessSectionPreview from "../../previews/Home/SuccessSectionPreview";
+import TestimonialSectionPreview from "../../previews/Home/TestimonialSectionPreview";
 
 interface PreviewSectionProps {
   homeSection: HomeSection;

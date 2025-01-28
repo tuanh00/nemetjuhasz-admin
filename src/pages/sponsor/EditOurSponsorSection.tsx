@@ -8,6 +8,7 @@ import {
 } from "../../firebase/OurSponsorService";
 import VolunteerSectionEdit from "../sections/sponsorForms/VolunteerSectionEdit";
 import BecomeASponsorSectionEdit from "../sections/sponsorForms/BecomeASponsorSectionEdit";
+import FosterSectionEdit from "../sections/sponsorForms/FosterSectionEdit";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase/Firebase";
 
@@ -61,20 +62,13 @@ const EditOurSponsorSection: React.FC = () => {
       setSponsorSection((prev) => {
         if (!prev) return prev;
 
-        // Type guard to ensure we only update the correct section type
-        if (sectionType === "volunteers" && prev.volunteers) {
-          const updatedVolunteers = [...prev.volunteers];
-          updatedVolunteers[index].imageUrl = downloadUrl;
-          return { ...prev, volunteers: updatedVolunteers };
-        }
-
-        if (sectionType === "becomeASponsor" && prev.becomeASponsor) {
-          const updatedData = [...prev.becomeASponsor];
+        if (sectionType === "fosters" && prev.fosters) {
+          const updatedData = [...prev.fosters];
           updatedData[index].imageUrl = downloadUrl;
-          return { ...prev, becomeASponsor: updatedData };
+          return { ...prev, fosters: updatedData };
         }
 
-        return prev; // Return the state unchanged if no matching section type
+        return prev;
       });
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -118,6 +112,26 @@ const EditOurSponsorSection: React.FC = () => {
                 const updatedData = [...prev.becomeASponsor];
                 updatedData[index].imageUrl = "";
                 return { ...prev, becomeASponsor: updatedData };
+              });
+            }}
+            onUploadImage={handleUploadImage}
+          />
+        );
+      case "fosters":
+        return (
+          <FosterSectionEdit
+            sectionData={sponsorSection?.fosters || []}
+            onUpdate={(updatedData) =>
+              setSponsorSection((prev) =>
+                prev ? { ...prev, fosters: updatedData } : null
+              )
+            }
+            onRemoveImage={(index) => {
+              setSponsorSection((prev) => {
+                if (!prev?.fosters) return prev;
+                const updatedData = [...prev.fosters];
+                updatedData[index].imageUrl = "";
+                return { ...prev, fosters: updatedData };
               });
             }}
             onUploadImage={handleUploadImage}

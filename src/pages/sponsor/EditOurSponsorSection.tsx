@@ -9,6 +9,7 @@ import {
 import VolunteerSectionEdit from "../sections/sponsorForms/VolunteerSectionEdit";
 import BecomeASponsorSectionEdit from "../sections/sponsorForms/BecomeASponsorSectionEdit";
 import FosterSectionEdit from "../sections/sponsorForms/FosterSectionEdit";
+import SponsorSectionEdit from "../sections/sponsorForms/SponsorSectionEdit";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase/Firebase";
 
@@ -62,10 +63,28 @@ const EditOurSponsorSection: React.FC = () => {
       setSponsorSection((prev) => {
         if (!prev) return prev;
 
+        if (sectionType === "volunteers" && prev.volunteers) {
+          const updatedVolunteers = [...prev.volunteers];
+          updatedVolunteers[index].imageUrl = downloadUrl;
+          return { ...prev, volunteers: updatedVolunteers };
+        }
+
+        if (sectionType === "becomeASponsor" && prev.becomeASponsor) {
+          const updatedData = [...prev.becomeASponsor];
+          updatedData[index].imageUrl = downloadUrl;
+          return { ...prev, becomeASponsor: updatedData };
+        }
+
         if (sectionType === "fosters" && prev.fosters) {
           const updatedData = [...prev.fosters];
           updatedData[index].imageUrl = downloadUrl;
           return { ...prev, fosters: updatedData };
+        }
+
+        if (sectionType === "sponsors" && prev.sponsors) {
+          const updatedData = [...prev.sponsors];
+          updatedData[index].imageUrl = downloadUrl;
+          return { ...prev, sponsors: updatedData };
         }
 
         return prev;
@@ -132,6 +151,26 @@ const EditOurSponsorSection: React.FC = () => {
                 const updatedData = [...prev.fosters];
                 updatedData[index].imageUrl = "";
                 return { ...prev, fosters: updatedData };
+              });
+            }}
+            onUploadImage={handleUploadImage}
+          />
+        );
+      case "sponsors":
+        return (
+          <SponsorSectionEdit
+            sectionData={sponsorSection?.sponsors || []}
+            onUpdate={(updatedData) =>
+              setSponsorSection((prev) =>
+                prev ? { ...prev, sponsors: updatedData } : null
+              )
+            }
+            onRemoveImage={(index) => {
+              setSponsorSection((prev) => {
+                if (!prev?.sponsors) return prev;
+                const updatedData = [...prev.sponsors];
+                updatedData[index].imageUrl = "";
+                return { ...prev, sponsors: updatedData };
               });
             }}
             onUploadImage={handleUploadImage}

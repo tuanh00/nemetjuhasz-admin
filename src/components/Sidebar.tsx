@@ -71,6 +71,9 @@ const Sidebar = () => {
             {/* About Us - Sponsors */}
             <Li url="/add-sponsor-section" text="Add Sponsor Section" Icon={IoMdAdd} location={location} />
 
+             {/* Adoption Management */}
+             <Li url="/manage-adoption" text="Manage Adoption Sections" Icon={FaHome} location={location} />
+            <Li url="/add-adoption" text="Add Adoption Section" Icon={IoMdAdd} location={location} />
           </ul>
         </div>
       </aside>

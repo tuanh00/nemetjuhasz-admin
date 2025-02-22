@@ -33,6 +33,8 @@ import AboutUsSectionList from "./pages/about/AboutUsSectionList";
 import AddOurSponsorSection from "./pages/sponsor/AddOurSponsorSection";
 import OurSponsorSectionList from "./pages/sponsor/OurSponsorSectionList";
 import EditOurSponsorSection from "./pages/sponsor/EditOurSponsorSection";
+import ManageAdoptionSections from "./pages/pet/adoption/ManageAdoptionSections";
+import AddAdoptionSection from "./pages/pet/adoption/AddAdoptionSection";
 
 const App = () => {
   return (
@@ -149,7 +151,23 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+        {/* Adoption Management */}
+        <Route
+          path="/manage-adoption"
+          element={
+            <ProtectedRoute>
+              <ManageAdoptionSections />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/add-adoption"
+          element={
+            <ProtectedRoute>
+              <AddAdoptionSection />
+            </ProtectedRoute>
+          }
+        />
         {/* Add new routes for home sections */}
         <Route path="/home-sections" element={<HomeSectionList />} />
         <Route path="/add-home-section" element={<AddHomeSection />} />

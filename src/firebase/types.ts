@@ -144,3 +144,34 @@ export interface OurSponsorSection {
   becomeASponsor?: BecomeASponsor[];
 }
 //END OUR SPONSOR SECTION TYPES
+
+//START ADOPTION SECTION TYPES
+export interface AdoptionSection {
+  id?: string;
+  sectionType: "adoptionProcess" | "successStories";
+  adoptionProcess?: AdoptionProcessSection;
+  successStories?: SuccessStoriesSection;
+}
+
+export interface AdoptionProcessSection {
+  title: string;
+  hungarianTitle: string;
+  subtitle: string;
+  hungarianSubtitle: string;
+  content: string;
+  hungarianContent: string;
+  imageUrl: string;
+}
+
+export interface SuccessStoriesSection {
+  title: string;
+  hungarianTitle: string;
+  images: {
+    englishImageTitle: string;
+    hungarianImageTitle: string;
+    firstImageUrl: string;  
+    secondImageUrl: string; 
+    link: string;
+  }[];
+}
+//END ADOPTION SECTION TYPES

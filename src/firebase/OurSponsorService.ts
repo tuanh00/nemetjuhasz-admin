@@ -137,7 +137,7 @@ export const updateOurSponsorSection = async (
     if (sponsorSection.sectionType === "sponsors" && sponsorSection.sponsors) {
       const sponsors = [...sponsorSection.sponsors];
       await Promise.all(
-        sponsors.map(async (sponsor, index) => {
+        sponsors.map(async (_sponsor, index) => {
           const file = imageFiles[index];
           if (file) {
             const storageRef = ref(storage, `our_sponsors/${Date.now()}_${file.name}`);

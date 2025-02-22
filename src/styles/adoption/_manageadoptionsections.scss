@@ -1,0 +1,29 @@
+.manage-adoption-container {
+  flex: 1;
+  padding: 2rem;
+
+  .adoption-section-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
+  .edit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+  }
+
+  .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 0.5rem;
+  }
+}

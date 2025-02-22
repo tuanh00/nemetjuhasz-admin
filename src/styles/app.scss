@@ -11,6 +11,9 @@
 @import "./aboutus/editaboutussection";
 @import "./aboutus/aboutussectionlist";
 @import "./aboutus/sponsors/addsponsorsection";
+@import "./adoption/addadoptionsection";
+@import "./adoption/manageadoptionsections";
+@import "./adoption/editadoptionsection";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -106,7 +109,6 @@ a {
   }
 }
 
-
 .toggle {
   @include flex(column, center, center, 0.2rem);
   .toggle-switch {
@@ -154,8 +156,8 @@ a {
     }
   }
 }
- // General button styles
- main .btn {
+// General button styles
+main .btn {
   padding: 10px 20px;
   color: white;
   border: none;
@@ -167,11 +169,11 @@ a {
   align-items: center;
   background: linear-gradient(to right, #aabbff, #07bffa);
   //width: fit-content; // Allows it to stretch if needed in larger containers
-  min-width: 180px;  // Ensures a minimum width
+  min-width: 180px; // Ensures a minimum width
   width: fit-content; // Allows it to stretch if needed in larger containers
-  
+
   @media (max-width: 768px) {
-    width: 100%;  // Full width on smaller screens
+    width: 100%; // Full width on smaller screens
   }
 }
 .btn:hover:not(:disabled) {
@@ -184,8 +186,8 @@ a {
   cursor: not-allowed;
 }
 
-.admin-container  {
-  .remove-btn{
+.admin-container {
+  .remove-btn {
     position: absolute;
     top: 0;
     right: 0;
@@ -197,5 +199,3 @@ a {
     visibility: hidden;
   }
 }
-
-

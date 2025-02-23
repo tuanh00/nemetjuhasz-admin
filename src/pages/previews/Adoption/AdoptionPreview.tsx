@@ -11,7 +11,7 @@ const AdoptionPreview: React.FC<AdoptionPreviewProps> = ({ section }) => {
     <>
       {/* Adoption Process Section Preview */}
       {section.sectionType === "adoptionProcess" && section.adoptionProcess && (
-        <div className="adoption-preview-container">
+        <div className="adoption-preview-container adoption-process-preview">
           <div className="container-fluid bg-white">
             <div className="container mt-5">
               <h1 className="section-title">
@@ -37,6 +37,11 @@ const AdoptionPreview: React.FC<AdoptionPreviewProps> = ({ section }) => {
                 </div>
                 <div className="col-md-6">
                   <p className="preview-text">{section.adoptionProcess.content}</p>
+                  <div className="button-wrapper">
+                    <a href={section.adoptionProcess.buttonLink} target="_blank" rel="noopener noreferrer">
+                      <button className="btn mt-3">{section.adoptionProcess.englishButtonTitle}</button>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -47,7 +52,7 @@ const AdoptionPreview: React.FC<AdoptionPreviewProps> = ({ section }) => {
       {/* Success Stories Section Preview */}
       {section.sectionType === "successStories" && section.successStories && (
         <div className="adoption-preview-container success-stories-preview container-fluid mt-5 mb-5">
-          <h3 className="mb-5 text-center section-title">
+          <h3 className="mb-5 section-title">
             <strong>{section.successStories.title}</strong>
           </h3>
           {section.successStories.images.map((img, index) => (
@@ -67,7 +72,6 @@ const AdoptionPreview: React.FC<AdoptionPreviewProps> = ({ section }) => {
                   </div>
                 </a>
               </div>
-
               {/* Second image */}
               <div className="col-md-5 image-container">
                 <a href={img.link} target="_blank" rel="noopener noreferrer">
@@ -85,6 +89,23 @@ const AdoptionPreview: React.FC<AdoptionPreviewProps> = ({ section }) => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Become a Foster Section Preview */}
+      {section.sectionType === "becomeAFoster" && section.becomeAFoster && (
+        <div className="adoption-preview-container become-afoster-preview container-fluid mt-5 mb-5">
+          <div className="container">
+            <h3 className="section-title">
+              <strong>{section.becomeAFoster.englishTitle}</strong>
+            </h3>
+            <p>{section.becomeAFoster.englishContent}</p>
+            <div className="button-wrapper">
+              <a href={section.becomeAFoster.buttonLink} target="_blank" rel="noopener noreferrer">
+                <button className="btn mt-3">{section.becomeAFoster.englishButtonTitle}</button>
+              </a>
+            </div>
+          </div>
         </div>
       )}
     </>

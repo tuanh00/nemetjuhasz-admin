@@ -3,47 +3,23 @@
 
   // Styles for Adoption Process Preview
   &.adoption-process-preview {
-    background-color: #f0f0f0; // fluid gray background
     border-radius: 5px;
 
-    .preview-header {
-      text-align: center;
-      margin-bottom: 1rem;
-
-      .section-title {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        color: #333;
-      }
-      .section-subtitle {
-        font-size: 1.5rem;
-        color: #555;
-      }
+    // Remove white backgrounds by omitting bg-white/bg-light classes.
+    .section-title {
+      color: #333;
     }
 
-    .preview-body {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-
-      .preview-image {
-        flex: 1;
-        min-width: 200px;
-
-        img {
-          width: 100%;
-          border-radius: 5px;
-        }
-      }
-
-      .preview-content {
-        flex: 2;
-        min-width: 300px;
-
-        p {
-          font-size: 1.2rem;
-          color: #333;
-        }
+    .preview-text {
+      white-space: pre-line;
+    }
+    
+    .button-wrapper {
+      text-align: center;
+      margin-top: 1rem;
+      .btn {
+        display: inline-block;
+        
       }
     }
   }
@@ -119,11 +95,36 @@
       }
     }
 
-    // Media query to scale down images on desktop screens
     @media (min-width: 768px) {
       .image-container {
         max-width: 45%;
         margin: 0 auto;
+      }
+    }
+  }
+
+  // Styles for Become a Foster Preview (dark background, centered content)
+  &.become-afoster-preview {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 3rem 0;
+
+    .section-title {
+      font-weight: bold;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .preview-text {
+      white-space: pre-line;
+    }
+
+    .button-wrapper {
+      text-align: center;
+      .btn {
+        display: inline-block;
+        margin-top: 1rem;
       }
     }
   }

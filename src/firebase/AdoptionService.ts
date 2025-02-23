@@ -9,7 +9,12 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { AdoptionSection } from "./types";
-import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 
 const adoptionCollection = collection(db, "adoption");
 
@@ -20,8 +25,15 @@ export const addAdoptionSection = async (
 ): Promise<void> => {
   try {
     // 1. adoptionProcess + single file
-    if (section.sectionType === "adoptionProcess" && imageFile && !(imageFile instanceof Array)) {
-      const storageRef = ref(storage, `adoption/${Date.now()}_${imageFile.name}`);
+    if (
+      section.sectionType === "adoptionProcess" &&
+      imageFile &&
+      !(imageFile instanceof Array)
+    ) {
+      const storageRef = ref(
+        storage,
+        `adoption/${Date.now()}_${imageFile.name}`
+      );
       await uploadBytes(storageRef, imageFile);
       const downloadUrl = await getDownloadURL(storageRef);
       section.adoptionProcess!.imageUrl = downloadUrl;
@@ -37,17 +49,28 @@ export const addAdoptionSection = async (
       const downloadUrls: (string | null)[] = [null, null];
       for (let i = 0; i < 2; i++) {
         if (files[i]) {
-          const storageRef = ref(storage, `adoption/${Date.now()}_${files[i]!.name}`);
+          const storageRef = ref(
+            storage,
+            `adoption/${Date.now()}_${files[i]!.name}`
+          );
           await uploadBytes(storageRef, files[i]!);
           downloadUrls[i] = await getDownloadURL(storageRef);
         }
       }
       section.successStories!.images = [
         {
-          englishImageTitle: section.successStories!.images![0].englishImageTitle || "",
-          hungarianImageTitle: section.successStories!.images![0].hungarianImageTitle || "",
-          firstImageUrl: downloadUrls[0] !== null ? (downloadUrls[0] as string) : section.successStories!.images![0].firstImageUrl,
-          secondImageUrl: downloadUrls[1] !== null ? (downloadUrls[1] as string) : section.successStories!.images![0].secondImageUrl,
+          englishImageTitle:
+            section.successStories!.images![0].englishImageTitle || "",
+          hungarianImageTitle:
+            section.successStories!.images![0].hungarianImageTitle || "",
+          firstImageUrl:
+            downloadUrls[0] !== null
+              ? (downloadUrls[0] as string)
+              : section.successStories!.images![0].firstImageUrl,
+          secondImageUrl:
+            downloadUrls[1] !== null
+              ? (downloadUrls[1] as string)
+              : section.successStories!.images![0].secondImageUrl,
           link: section.successStories!.images![0].link || "",
         },
       ];
@@ -62,7 +85,10 @@ export const addAdoptionSection = async (
 export const getAdoptionSections = async (): Promise<AdoptionSection[]> => {
   try {
     const querySnapshot = await getDocs(adoptionCollection);
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as AdoptionSection) }));
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...(doc.data() as AdoptionSection),
+    }));
   } catch (error) {
     console.error("Error retrieving adoption sections:", error);
     return [];
@@ -86,7 +112,10 @@ export const updateAdoptionSection = async (
       imageFile &&
       !(imageFile instanceof Array)
     ) {
-      const storageRef = ref(storage, `adoption/${Date.now()}_${imageFile.name}`);
+      const storageRef = ref(
+        storage,
+        `adoption/${Date.now()}_${imageFile.name}`
+      );
       await uploadBytes(storageRef, imageFile);
       const downloadUrl = await getDownloadURL(storageRef);
       if (!updatedSection.adoptionProcess) {
@@ -98,6 +127,9 @@ export const updateAdoptionSection = async (
           content: "",
           hungarianContent: "",
           imageUrl: "",
+          englishButtonTitle: "",
+          hungarianButtonTitle: "",
+          buttonLink: "",
         };
       }
       updatedSection.adoptionProcess.imageUrl = downloadUrl;
@@ -112,13 +144,20 @@ export const updateAdoptionSection = async (
       const downloadUrls: (string | null)[] = [null, null];
       for (let i = 0; i < 2; i++) {
         if (files[i]) {
-          const storageRef = ref(storage, `adoption/${Date.now()}_${files[i]!.name}`);
+          const storageRef = ref(
+            storage,
+            `adoption/${Date.now()}_${files[i]!.name}`
+          );
           await uploadBytes(storageRef, files[i]!);
           downloadUrls[i] = await getDownloadURL(storageRef);
         }
       }
       if (!updatedSection.successStories) {
-        updatedSection.successStories = { title: "", hungarianTitle: "", images: [] };
+        updatedSection.successStories = {
+          title: "",
+          hungarianTitle: "",
+          images: [],
+        };
       }
       if (!updatedSection.successStories.images) {
         updatedSection.successStories.images = [];
@@ -133,10 +172,12 @@ export const updateAdoptionSection = async (
         });
       }
       if (downloadUrls[0] !== null) {
-        updatedSection.successStories.images[0].firstImageUrl = downloadUrls[0] as string;
+        updatedSection.successStories.images[0].firstImageUrl =
+          downloadUrls[0] as string;
       }
       if (downloadUrls[1] !== null) {
-        updatedSection.successStories.images[0].secondImageUrl = downloadUrls[1] as string;
+        updatedSection.successStories.images[0].secondImageUrl =
+          downloadUrls[1] as string;
       }
     }
 

@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../../components/Sidebar";
-import { AdoptionSection, AdoptionProcessSection, SuccessStoriesSection } from "../../../firebase/types";
+import { 
+  AdoptionSection, 
+  AdoptionProcessSection, 
+  SuccessStoriesSection, 
+  BecomeAFosterSection 
+} from "../../../firebase/types";
 import { addAdoptionSection } from "../../../firebase/AdoptionService";
 import AdoptionPreview from "../../previews/Adoption/AdoptionPreview";
 import "../../../styles/adoption/_addadoptionsection.scss";
 
 // Define a form type where nested fields are partial
 type AdoptionSectionForm = {
-  sectionType?: "adoptionProcess" | "successStories";
+  sectionType?: "adoptionProcess" | "successStories" | "becomeAFoster";
   adoptionProcess?: Partial<AdoptionProcessSection>;
   successStories?: Partial<SuccessStoriesSection>;
+  becomeAFoster?: Partial<BecomeAFosterSection>;
   id?: string;
 };
 
 const AddAdoptionSection: React.FC = () => {
   // Common state
-  const [sectionType, setSectionType] = useState<"adoptionProcess" | "successStories">("adoptionProcess");
+  const [sectionType, setSectionType] = useState<"adoptionProcess" | "successStories" | "becomeAFoster">("adoptionProcess");
   const [sectionData, setSectionData] = useState<AdoptionSectionForm>({ sectionType: "adoptionProcess" });
   const [previewMode, setPreviewMode] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -24,7 +30,6 @@ const AddAdoptionSection: React.FC = () => {
 
   // State for adoptionProcess image
   const [adoptionImageFile, setAdoptionImageFile] = useState<File | null>(null);
-
   // State for successStories images
   const [englishImageFile, setEnglishImageFile] = useState<File | null>(null);
   const [hungarianImageFile, setHungarianImageFile] = useState<File | null>(null);
@@ -44,9 +49,12 @@ const AddAdoptionSection: React.FC = () => {
         !!data?.hungarianSubtitle &&
         !!data?.content &&
         !!data?.hungarianContent &&
+        !!data?.englishButtonTitle &&
+        !!data?.hungarianButtonTitle &&
+        !!data?.buttonLink &&
         !!adoptionImageFile
       );
-    } else {
+    } else if (sectionType === "successStories") {
       const data = sectionData.successStories;
       setIsValid(
         !!data?.title &&
@@ -56,6 +64,17 @@ const AddAdoptionSection: React.FC = () => {
         !!(data.images && data.images[0]?.link) &&
         !!englishImageFile &&
         !!hungarianImageFile
+      );
+    } else if (sectionType === "becomeAFoster") {
+      const data = sectionData.becomeAFoster;
+      setIsValid(
+        !!data?.englishTitle &&
+        !!data?.hungarianTitle &&
+        !!data?.englishContent &&
+        !!data?.hungarianContent &&
+        !!data?.englishButtonTitle &&
+        !!data?.hungarianButtonTitle &&
+        !!data?.buttonLink
       );
     }
   };
@@ -70,7 +89,7 @@ const AddAdoptionSection: React.FC = () => {
           [name]: value,
         },
       }));
-    } else {
+    } else if (sectionType === "successStories") {
       if (["englishImageTitle", "hungarianImageTitle", "link"].includes(name)) {
         setSectionData((prev) => ({
           ...prev,
@@ -81,8 +100,8 @@ const AddAdoptionSection: React.FC = () => {
                 hungarianImageTitle: "",
                 firstImageUrl: "",
                 secondImageUrl: "",
-                link: ""
-              }]
+                link: "",
+              }],
             }),
             images: [
               {
@@ -91,7 +110,7 @@ const AddAdoptionSection: React.FC = () => {
                   hungarianImageTitle: "",
                   firstImageUrl: "",
                   secondImageUrl: "",
-                  link: ""
+                  link: "",
                 }),
                 [name]: value,
               },
@@ -108,13 +127,29 @@ const AddAdoptionSection: React.FC = () => {
                 hungarianImageTitle: "",
                 firstImageUrl: "",
                 secondImageUrl: "",
-                link: ""
-              }]
+                link: "",
+              }],
             }),
             [name]: value,
           },
         }));
       }
+    } else if (sectionType === "becomeAFoster") {
+      setSectionData((prev) => ({
+        ...prev,
+        becomeAFoster: {
+          ...((prev.becomeAFoster) || {
+            englishTitle: "",
+            hungarianTitle: "",
+            englishContent: "",
+            hungarianContent: "",
+            englishButtonTitle: "",
+            hungarianButtonTitle: "",
+            buttonLink: ""
+          }),
+          [name]: value,
+        },
+      }));
     }
   };
 
@@ -142,13 +177,14 @@ const AddAdoptionSection: React.FC = () => {
     if (!isValid) return;
     try {
       if (sectionType === "adoptionProcess") {
-        // Pass the single file directly
         await addAdoptionSection({ ...sectionData, sectionType } as AdoptionSection, adoptionImageFile || undefined);
-      } else {
+      } else if (sectionType === "successStories") {
         await addAdoptionSection(
           { ...sectionData, sectionType } as AdoptionSection,
           (englishImageFile && hungarianImageFile) ? [englishImageFile, hungarianImageFile] : undefined
         );
+      } else if (sectionType === "becomeAFoster") {
+        await addAdoptionSection({ ...sectionData, sectionType } as AdoptionSection);
       }
       alert("Adoption Section added!");
       navigate("/manage-adoption");
@@ -166,14 +202,17 @@ const AddAdoptionSection: React.FC = () => {
   if (sectionType === "adoptionProcess") {
     previewSection.adoptionProcess = {
       title: previewSection.adoptionProcess?.title || "",
-      hungarianTitle: previewSection.adoptionProcess?.hungarianTitle || "",
       subtitle: previewSection.adoptionProcess?.subtitle || "",
       hungarianSubtitle: previewSection.adoptionProcess?.hungarianSubtitle || "",
+      hungarianTitle: previewSection.adoptionProcess?.hungarianTitle || "",
       content: previewSection.adoptionProcess?.content || "",
       hungarianContent: previewSection.adoptionProcess?.hungarianContent || "",
+      englishButtonTitle: previewSection.adoptionProcess?.englishButtonTitle || "",
+      hungarianButtonTitle: previewSection.adoptionProcess?.hungarianButtonTitle || "",
+      buttonLink: previewSection.adoptionProcess?.buttonLink || "",
       imageUrl: adoptionImageFile ? URL.createObjectURL(adoptionImageFile) : previewSection.adoptionProcess?.imageUrl || ""
     };
-  } else {
+  } else if (sectionType === "successStories") {
     previewSection.successStories = {
       title: previewSection.successStories?.title || "",
       hungarianTitle: previewSection.successStories?.hungarianTitle || "",
@@ -187,6 +226,16 @@ const AddAdoptionSection: React.FC = () => {
         }
       ]
     };
+  } else if (sectionType === "becomeAFoster") {
+    previewSection.becomeAFoster = {
+      englishTitle: previewSection.becomeAFoster?.englishTitle || "",
+      hungarianTitle: previewSection.becomeAFoster?.hungarianTitle || "",
+      englishContent: previewSection.becomeAFoster?.englishContent || "",
+      hungarianContent: previewSection.becomeAFoster?.hungarianContent || "",
+      englishButtonTitle: previewSection.becomeAFoster?.englishButtonTitle || "",
+      hungarianButtonTitle: previewSection.becomeAFoster?.hungarianButtonTitle || "",
+      buttonLink: previewSection.becomeAFoster?.buttonLink || ""
+    };
   }
 
   return (
@@ -199,13 +248,14 @@ const AddAdoptionSection: React.FC = () => {
         <select
           id="section-type"
           value={sectionType}
-          onChange={(e) => setSectionType(e.target.value as "adoptionProcess" | "successStories")}
+          onChange={(e) => setSectionType(e.target.value as "adoptionProcess" | "successStories" | "becomeAFoster")}
         >
           <option value="adoptionProcess">Adoption Process</option>
           <option value="successStories">Success Stories</option>
+          <option value="becomeAFoster">Become a Foster</option>
         </select>
 
-        {sectionType === "adoptionProcess" ? (
+        {sectionType === "adoptionProcess" && (
           <div className="input-section">
             <label htmlFor="english-title">English Title:</label>
             <input type="text" id="english-title" name="title" placeholder="English Title" onChange={handleChange} />
@@ -224,8 +274,19 @@ const AddAdoptionSection: React.FC = () => {
 
             <label htmlFor="hungarian-content">Hungarian Content:</label>
             <textarea id="hungarian-content" name="hungarianContent" placeholder="Hungarian Content" onChange={handleChange}></textarea>
+
+            <label htmlFor="englishButtonTitle">English Button Title:</label>
+            <input type="text" id="englishButtonTitle" name="englishButtonTitle" placeholder="English Button Title" onChange={handleChange} />
+
+            <label htmlFor="hungarianButtonTitle">Hungarian Button Title:</label>
+            <input type="text" id="hungarianButtonTitle" name="hungarianButtonTitle" placeholder="Hungarian Button Title" onChange={handleChange} />
+
+            <label htmlFor="buttonLink">Button Link:</label>
+            <input type="text" id="buttonLink" name="buttonLink" placeholder="Button Link" onChange={handleChange} />
           </div>
-        ) : (
+        )}
+
+        {sectionType === "successStories" && (
           <div className="input-section">
             <label htmlFor="success-title">Success Story Title (English):</label>
             <input type="text" id="success-title" name="title" placeholder="Success Story Title (English)" onChange={handleChange} />
@@ -244,8 +305,33 @@ const AddAdoptionSection: React.FC = () => {
           </div>
         )}
 
-        {/* Image Upload Section */}
-        {sectionType === "adoptionProcess" ? (
+        {sectionType === "becomeAFoster" && (
+          <div className="input-section">
+            <label htmlFor="englishTitle">English Title:</label>
+            <input type="text" id="englishTitle" name="englishTitle" placeholder="English Title" onChange={handleChange} />
+
+            <label htmlFor="hungarianTitle">Hungarian Title:</label>
+            <input type="text" id="hungarianTitle" name="hungarianTitle" placeholder="Hungarian Title" onChange={handleChange} />
+
+            <label htmlFor="englishContent">English Content:</label>
+            <textarea id="englishContent" name="englishContent" placeholder="English Content" onChange={handleChange}></textarea>
+
+            <label htmlFor="hungarianContent">Hungarian Content:</label>
+            <textarea id="hungarianContent" name="hungarianContent" placeholder="Hungarian Content" onChange={handleChange}></textarea>
+
+            <label htmlFor="englishButtonTitle">English Button Title:</label>
+            <input type="text" id="englishButtonTitle" name="englishButtonTitle" placeholder="English Button Title" onChange={handleChange} />
+
+            <label htmlFor="hungarianButtonTitle">Hungarian Button Title:</label>
+            <input type="text" id="hungarianButtonTitle" name="hungarianButtonTitle" placeholder="Hungarian Button Title" onChange={handleChange} />
+
+            <label htmlFor="buttonLink">Button Link:</label>
+            <input type="text" id="buttonLink" name="buttonLink" placeholder="Button Link" onChange={handleChange} />
+          </div>
+        )}
+
+        {/* Image Upload Section for adoptionProcess and successStories only */}
+        {sectionType === "adoptionProcess" && (
           <div className="image-preview-container">
             {adoptionImageFile ? (
               <div className="image-preview-wrapper">
@@ -258,13 +344,15 @@ const AddAdoptionSection: React.FC = () => {
               <input type="file" accept="image/*" onChange={handleAdoptionImageUpload} />
             )}
           </div>
-        ) : (
+        )}
+
+        {sectionType === "successStories" && (
           <div className="image-preview-container">
             <div>
               <label>First Image:</label>
               {englishImageFile ? (
                 <div className="image-preview-wrapper">
-                  <img src={URL.createObjectURL(englishImageFile)} alt="English Preview" className="preview-image" />
+                  <img src={URL.createObjectURL(englishImageFile)} alt="First Preview" className="preview-image" />
                   <button type="button" className="remove" onClick={() => setEnglishImageFile(null)}>
                     X
                   </button>
@@ -274,10 +362,10 @@ const AddAdoptionSection: React.FC = () => {
               )}
             </div>
             <div>
-              <label>Second Image: </label>
+              <label>Second Image:</label>
               {hungarianImageFile ? (
                 <div className="image-preview-wrapper">
-                  <img src={URL.createObjectURL(hungarianImageFile)} alt="Hungarian Preview" className="preview-image" />
+                  <img src={URL.createObjectURL(hungarianImageFile)} alt="Second Preview" className="preview-image" />
                   <button type="button" className="remove" onClick={() => setHungarianImageFile(null)}>
                     X
                   </button>

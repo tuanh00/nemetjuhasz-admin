@@ -148,9 +148,10 @@ export interface OurSponsorSection {
 //START ADOPTION SECTION TYPES
 export interface AdoptionSection {
   id?: string;
-  sectionType: "adoptionProcess" | "successStories";
+  sectionType: "adoptionProcess" | "successStories" | "becomeAFoster";
   adoptionProcess?: AdoptionProcessSection;
   successStories?: SuccessStoriesSection;
+  becomeAFoster?: BecomeAFosterSection;
 }
 
 export interface AdoptionProcessSection {
@@ -161,6 +162,9 @@ export interface AdoptionProcessSection {
   content: string;
   hungarianContent: string;
   imageUrl: string;
+  englishButtonTitle: string;
+  hungarianButtonTitle: string;
+  buttonLink: string;
 }
 
 export interface SuccessStoriesSection {
@@ -173,5 +177,15 @@ export interface SuccessStoriesSection {
     secondImageUrl: string; 
     link: string;
   }[];
+}
+
+export interface BecomeAFosterSection {
+ englishTitle: string;
+ hungarianTitle: string;
+ englishContent: string;
+ hungarianContent: string;
+ englishButtonTitle: string;
+ hungarianButtonTitle: string;
+ buttonLink: string;
 }
 //END ADOPTION SECTION TYPES

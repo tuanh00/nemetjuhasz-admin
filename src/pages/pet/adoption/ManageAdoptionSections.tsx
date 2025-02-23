@@ -41,18 +41,14 @@ const ManageAdoptionSections: React.FC = () => {
           <table className="adoption-section-table">
             <thead>
               <tr>
-                <th>Section Title</th>
+                <th>Section Type</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {sections.map((section) => (
                 <tr key={section.id}>
-                  <td>
-                    {section.sectionType === "adoptionProcess"
-                      ? section.adoptionProcess?.title
-                      : section.successStories?.title}
-                  </td>
+                  <td>{section.sectionType}</td>
                   <td>
                     <button type="button" className="edit-btn" onClick={() => setEditingSection(section)}>
                       Edit

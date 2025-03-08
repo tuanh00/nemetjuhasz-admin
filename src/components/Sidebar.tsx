@@ -7,7 +7,6 @@ import { Link, Location, useLocation } from "react-router-dom";
 import { IoMenu } from "react-icons/io5"; // Hamburger icon
 import { FaHome } from "react-icons/fa"; // Home icon
 import { FaUsers } from "react-icons/fa"; // Icon for sponsors or volunteers
-import { FaDonate } from "react-icons/fa"; 
 
 const Sidebar = () => {
   const location = useLocation();

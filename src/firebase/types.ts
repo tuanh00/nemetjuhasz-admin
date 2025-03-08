@@ -189,3 +189,101 @@ export interface BecomeAFosterSection {
  buttonLink: string;
 }
 //END ADOPTION SECTION TYPES
+
+//START DONATION SECTION TYPES
+export interface DonationSection {
+  id?: string;
+  sectionType: "donateSection" | "donateItems" | "becomeASponsor";
+
+  // For the "donateSection" type:
+  donateSection?: DonateSection;
+  
+  // For "donateItems" type:
+  donateItems?: DonateItems;
+  
+  // For "becomeASponsor" type:
+  sponsor?: SponsorDonation;
+}
+
+// START DONATION SECTION TYPES
+export interface DonationSection {
+  id?: string;
+  sectionType: "donateSection" | "donateItems" | "becomeASponsor";
+
+  // For the "donate" type:
+  donateSection?: DonateSection;
+  
+  // For "donateItems" type:
+  donateItems?: DonateItems;
+  
+  // For "becomeASponsor" type:
+  sponsor?: SponsorDonation;
+}
+
+/**
+ * For the main donation info (sectionType = "donateSection")
+ */
+export interface DonateSection {
+  // Title for EN and HU
+  englishTitle: string;
+  hungarianTitle: string;
+
+  // Main body text
+  englishContent: string;
+  hungarianContent: string;
+
+  // New fields for an intro paragraph and a closing paragraph in each language
+  introEnglish: string;
+  introHungarian: string;
+  closingEnglish: string;
+  closingHungarian: string;
+
+  // Single optional image
+  imageUrl?: string;
+
+  // A bullet list for each language
+  bulletPointsEnglish: string[];  
+  bulletPointsHungarian: string[];
+
+  // Matching optional links
+  bulletLinksEnglish?: string[];
+  bulletLinksHungarian?: string[];
+}
+
+// DonateItems and SponsorDonation remain unchanged except for normal usage:
+export interface DonateItems {
+  englishTitle: string;
+  hungarianTitle: string;
+  englishIntro: string;
+  hungarianIntro: string;
+  imageUrl?: string;
+
+  // 1) Food items section
+  foodSection: {
+    englishSectionTitle: string;
+    hungarianSectionTitle: string;
+    englishBullets: string[];
+    hungarianBullets: string[];
+  };
+
+  // 2) Accessories & toys section
+  accessorySection: {
+    englishSectionTitle: string;
+    hungarianSectionTitle: string;
+    englishBullets: string[];
+    hungarianBullets: string[];
+  };
+}
+
+export interface SponsorDonation {
+  imageUrl?: string;
+  englishTitle: string;
+  hungarianTitle: string;
+  contentEnglish: string;
+  contentHungarian: string;
+  englishButtonTitle?: string;
+  hungarianButtonTitle?: string;
+  englishButtonLink?: string;
+  hungarianButtonLink?: string;
+}
+// END DONATION SECTION TYPES

@@ -1,0 +1,37 @@
+.sponsor-donation-preview {
+  background-color: #111; /* Or use .bg-dark from Bootstrap */
+  color: #fff;
+
+  h2 {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  /* The sponsor image */
+  img {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* The custom button class used in the preview */
+  .btn-preview {
+    background: linear-gradient(45deg, #cc66ff, #3399ff);
+    background-size: 200% 200%;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    transition: 0.5s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+
+    &:hover {
+      background-position: right;
+      text-decoration: none; /* keep text clean on hover */
+    }
+  }
+}

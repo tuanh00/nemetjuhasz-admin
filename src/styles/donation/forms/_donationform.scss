@@ -1,0 +1,40 @@
+.bullet-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* or 'nowrap' if you want to force it */
+  gap: 8px;
+
+  .bullet-text {
+    width: 40%; /* smaller so the link + remove button fit */
+    resize: vertical;
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .bullet-link {
+    width: 30%;
+    font-size: 1rem;
+    padding: 0.4rem;
+  }
+
+  .remove-bullet-btn {
+    flex: 0 0 auto;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+
+    &:hover {
+      background-color: #c82333;
+    }
+  }
+}
+
+// make label bold and top margin
+label {
+  font-weight: 600;
+  margin: 1rem 0;
+}
+

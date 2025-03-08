@@ -35,6 +35,7 @@ import OurSponsorSectionList from "./pages/sponsor/OurSponsorSectionList";
 import EditOurSponsorSection from "./pages/sponsor/EditOurSponsorSection";
 import ManageAdoptionSections from "./pages/pet/adoption/ManageAdoptionSections";
 import AddAdoptionSection from "./pages/pet/adoption/AddAdoptionSection";
+import AddDonationSection from "./pages/donation/AddDonationSection";
 
 const App = () => {
   return (
@@ -168,6 +169,16 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/add-donation-section"
+          element={
+            <ProtectedRoute>
+              <AddDonationSection />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Add new routes for home sections */}
         <Route path="/home-sections" element={<HomeSectionList />} />
         <Route path="/add-home-section" element={<AddHomeSection />} />

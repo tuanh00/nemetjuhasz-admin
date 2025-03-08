@@ -7,6 +7,7 @@ import { Link, Location, useLocation } from "react-router-dom";
 import { IoMenu } from "react-icons/io5"; // Hamburger icon
 import { FaHome } from "react-icons/fa"; // Home icon
 import { FaUsers } from "react-icons/fa"; // Icon for sponsors or volunteers
+import { FaDonate } from "react-icons/fa"; 
 
 const Sidebar = () => {
   const location = useLocation();
@@ -74,6 +75,20 @@ const Sidebar = () => {
              {/* Adoption Management */}
              <Li url="/manage-adoption" text="Manage Adoption Sections" Icon={FaHome} location={location} />
             <Li url="/add-adoption" text="Add Adoption Section" Icon={IoMdAdd} location={location} />
+
+             {/* Donation Management */}
+             {/* <Li
+              url="/donation-sections"
+              text="Donation Sections"
+              Icon={FaDonate}
+              location={location}
+            /> */}
+            <Li
+              url="/add-donation-section"
+              text="Add Donation Section"
+              Icon={IoMdAdd}
+              location={location}
+            />
           </ul>
         </div>
       </aside>

@@ -14,7 +14,9 @@
 @import "./adoption/addadoptionsection";
 @import "./adoption/manageadoptionsections";
 @import "./adoption/editadoptionsection";
-
+@import "./donation/adddonationsection";
+@import "./donation/editdonationsection";
+@import "./donation/donationsectionlist";
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

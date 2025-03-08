@@ -1,0 +1,21 @@
+.donate-preview {
+    margin-bottom: 1rem;
+  
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+  
+    .image-preview {
+      margin-top: 1rem;
+  
+      img {
+        width: 200px;
+        height: auto;
+        border-radius: 5px;
+        object-fit: cover;
+      }
+    }
+  }
+  

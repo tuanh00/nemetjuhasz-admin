@@ -318,7 +318,7 @@ const DonateItemsForm: React.FC<DonateItemsFormProps> = ({
         ))}
         <button
           type="button"
-          className="w-100 mt-2"
+          className="btn w-100 mt-2"
           onClick={() => handleAddFoodBullet("EN")}
         >
           + Add EN Food Bullet
@@ -356,7 +356,7 @@ const DonateItemsForm: React.FC<DonateItemsFormProps> = ({
         ))}
         <button
           type="button"
-          className="w-100 mt-2"
+          className="btn w-100 mt-2"
           onClick={() => handleAddFoodBullet("HU")}
         >
           + Add HU Food Bullet
@@ -420,7 +420,7 @@ const DonateItemsForm: React.FC<DonateItemsFormProps> = ({
         ))}
         <button
           type="button"
-          className="w-100 mt-2"
+          className="btn w-100 mt-2"
           onClick={() => handleAddAccessoryBullet("EN")}
         >
           + Add EN Accessory Bullet
@@ -458,7 +458,7 @@ const DonateItemsForm: React.FC<DonateItemsFormProps> = ({
         ))}
         <button
           type="button"
-          className="w-100 mt-2"
+          className="btn w-100 mt-2"
           onClick={() => handleAddAccessoryBullet("HU")}
         >
           + Add HU Accessory Bullet

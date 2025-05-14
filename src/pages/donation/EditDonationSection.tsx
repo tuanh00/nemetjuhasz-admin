@@ -22,176 +22,121 @@ const EditDonationSection: React.FC = () => {
   const [section, setSection] = useState<DonationSection | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
-  const [isPreviewVisible, setIsPreviewVisible] = useState<boolean>(false);
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 1) On mount, fetch the existing donation section by ID
+  // 1) Load existing doc
   useEffect(() => {
     if (!id) return;
     getDonationSection(id).then((data) => {
-      if (!data) {
-        setMessage("Donation section not found.");
-        return;
-      }
-      setSection(data);
-
-      // If there's an existing image, we don't have a "blob" preview, 
-      // but we can show the actual url if you want. 
-      if (data.sectionType === "donateSection" && data.donateSection?.imageUrl) {
-        setPreviewUrl(data.donateSection.imageUrl);
-      }
-      if (data.sectionType === "donateItems" && data.donateItems?.imageUrl) {
-        setPreviewUrl(data.donateItems.imageUrl);
-      }
-      if (data.sectionType === "becomeASponsor" && data.sponsor?.imageUrl) {
-        setPreviewUrl(data.sponsor.imageUrl);
+      if (data) {
+        setSection(data);
+        // show existing image in preview
+        if (data.sectionType === "donateSection" && data.donateSection?.imageUrl) {
+          setPreviewUrl(data.donateSection.imageUrl);
+        }
+        if (data.sectionType === "donateItems" && data.donateItems?.imageUrl) {
+          setPreviewUrl(data.donateItems.imageUrl);
+        }
+        if (data.sectionType === "becomeASponsor" && data.sponsor?.imageUrl) {
+          setPreviewUrl(data.sponsor.imageUrl);
+        }
       }
     });
   }, [id]);
 
-  // 2) Update partial states
-  const updateDonateSection = (updated: any) => {
-    if (!section) return;
-    setSection({ ...section, donateSection: updated });
-  };
-  const updateDonateItems = (updated: any) => {
-    if (!section) return;
-    setSection({ ...section, donateItems: updated });
-  };
-  const updateSponsor = (updated: any) => {
-    if (!section) return;
-    setSection({ ...section, sponsor: updated });
-  };
-
-  // 3) Render forms
-  const renderForm = () => {
-    if (!section) return null;
-    switch (section.sectionType) {
-      case "donateSection":
-        return section.donateSection ? (
-          <DonateForm donateSection={section.donateSection} onUpdate={updateDonateSection} />
-        ) : null;
-      case "donateItems":
-        return section.donateItems ? (
-          <DonateItemsForm
-            donateItems={section.donateItems}
-            onUpdate={updateDonateItems}
-          />
-        ) : null;
-      case "becomeASponsor":
-        return section.sponsor ? (
-          <SponsorDonationForm sponsor={section.sponsor} onUpdate={updateSponsor} />
-        ) : null;
-      default:
-        return null;
-    }
-  };
-
-  // 4) Image
+  // 2) Image handlers
   const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImageFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
+    const file = e.target.files?.[0] || null;
+    setImageFile(file);
+    setPreviewUrl(file ? URL.createObjectURL(file) : null);
   };
-  const handleRemoveImage = () => {
+  const handleRemoveImageClick = () => {
     setImageFile(null);
     setPreviewUrl(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-    // Potentially also remove the existing imageUrl from section:
-    if (section) {
-      if (section.sectionType === "donateSection" && section.donateSection) {
-        section.donateSection.imageUrl = "";
-      } else if (section.sectionType === "donateItems" && section.donateItems) {
-        section.donateItems.imageUrl = "";
-      } else if (section.sectionType === "becomeASponsor" && section.sponsor) {
-        section.sponsor.imageUrl = "";
-      }
-      setSection({ ...section });
-    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  // 5) Validate form
+  // 3) Form validation
   useEffect(() => {
-    if (!section) {
-      setIsFormValid(false);
-      return;
-    }
-    let valid = false;
-    if (
-      section.sectionType === "donateSection" &&
-      section.donateSection?.englishTitle.trim() &&
-      section.donateSection?.hungarianTitle.trim()
-    ) {
-      valid = true;
-    }
-    if (
-      section.sectionType === "donateItems" &&
-      section.donateItems?.englishTitle.trim() &&
-      section.donateItems?.hungarianTitle.trim()
-    ) {
-      valid = true;
-    }
-    if (
-      section.sectionType === "becomeASponsor" &&
-      section.sponsor?.englishTitle.trim() &&
-      section.sponsor?.hungarianTitle.trim()
-    ) {
-      valid = true;
+    if (!section) return setIsFormValid(false);
+    let valid = true;
+    switch (section.sectionType) {
+      case "donateSection":
+        valid = !!section.donateSection?.englishTitle;
+        break;
+      case "donateItems":
+        valid = !!section.donateItems?.englishTitle;
+        break;
+      case "becomeASponsor":
+        valid = !!section.sponsor?.englishTitle;
+        break;
     }
     setIsFormValid(valid);
   }, [section]);
 
-  // 6) Preview
-  const togglePreview = () => setIsPreviewVisible((prev) => !prev);
+  // 4) Render forms
+  const renderForm = () => {
+    if (!section) return null;
+    if (section.sectionType === "donateSection") {
+      return (
+        <DonateForm
+          donateSection={section.donateSection!}
+          onUpdate={(ds) => setSection(s => s && ({ ...s, donateSection: ds }))}
+        />
+      );
+    }
+    if (section.sectionType === "donateItems") {
+      return (
+        <DonateItemsForm
+          donateItems={section.donateItems!}
+          onUpdate={(di) => setSection(s => s && ({ ...s, donateItems: di }))}
+        />
+      );
+    }
+    return (
+      <SponsorDonationForm
+        sponsor={section.sponsor!}
+        onUpdate={(sp) => setSection(s => s && ({ ...s, sponsor: sp }))}
+      />
+    );
+  };
 
+  // 5) Preview
+  const togglePreview = () => setIsPreviewVisible(v => !v);
   const renderPreview = () => {
     if (!section) return null;
-    switch (section.sectionType) {
-      case "donateSection":
-        return section.donateSection ? <DonatePreview donateSection={section.donateSection} /> : null;
-      case "donateItems":
-        return section.donateItems ? (
-          <DonateItemsPreview donateItems={section.donateItems} />
-        ) : null;
-      case "becomeASponsor":
-        return section.sponsor ? (
-          <SponsorDonationPreview sponsor={section.sponsor} />
-        ) : null;
-      default:
-        return null;
+    const copy = { ...section };
+    if (previewUrl) {
+      if (copy.sectionType === "donateSection") copy.donateSection!.imageUrl = previewUrl;
+      if (copy.sectionType === "donateItems") copy.donateItems!.imageUrl = previewUrl;
+      if (copy.sectionType === "becomeASponsor") copy.sponsor!.imageUrl = previewUrl;
+    }
+    switch (copy.sectionType) {
+      case "donateSection":   return <DonatePreview donateSection={copy.donateSection!} />;
+      case "donateItems":     return <DonateItemsPreview donateItems={copy.donateItems!} />;
+      case "becomeASponsor":  return <SponsorDonationPreview sponsor={copy.sponsor!} />;
+      default: return null;
     }
   };
 
-  // 7) Save changes
-  const handleSaveChanges = async () => {
-    if (!section || !id) {
-      setMessage("No data found or invalid ID.");
-      return;
-    }
+  // 6) Submit update
+  const handleSubmit = async () => {
+    if (!section || !id) return;
     try {
       await updateDonationSection(id, section, imageFile || undefined);
-      setMessage("Changes saved successfully!");
-      setTimeout(() => navigate("/manage-donation-sections"), 2000);
-    } catch (error) {
-      console.error("Error saving changes:", error);
-      setMessage("Failed to save changes.");
+      setMessage("✅ Updated successfully.");
+      setTimeout(() => navigate("/donation-sections"), 1000);
+    } catch {
+      setMessage("❌ Update failed.");
     }
   };
-
-  // Auto-hide message
   useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(null), 3000);
-      return () => clearTimeout(timer);
-    }
+    if (!message) return;
+    const t = setTimeout(() => setMessage(null), 3000);
+    return () => clearTimeout(t);
   }, [message]);
 
   return (
@@ -199,61 +144,47 @@ const EditDonationSection: React.FC = () => {
       <Sidebar />
       <main className="add-donation-section-container">
         <h2>Edit Donation Section</h2>
-        {message && <p className="message-box">{message}</p>}
 
-        {section ? (
-          <>
-            {renderForm()}
+        {renderForm()}
 
-            <div className="input-box" style={{ marginTop: "1rem" }}>
-              <label>Upload New Image (Optional)</label>
-              {previewUrl ? (
-                <div className="image-preview-grid">
-                  <div className="image-preview">
-                    <img src={previewUrl} alt="Local Preview" />
-                    <button
-                      type="button"
-                      className="remove-btn"
-                      onClick={handleRemoveImage}
-                    >
-                      X
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageFileChange}
-                />
-              )}
+        {/* Image upload */}
+        <div className="input-box mt-3">
+          <label>Upload Image (Optional)</label>
+          {previewUrl ? (
+            <div className="image-preview-grid">
+              <div className="image-preview">
+                <img src={previewUrl} alt="Preview" />
+                <button
+                  type="button"
+                  className="remove-btn"
+                  onClick={handleRemoveImageClick}
+                >
+                  ×
+                </button>
+              </div>
             </div>
+          ) : (
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageFileChange}
+            />
+          )}
+        </div>
 
-            <div className="preview-section">
-              <button
-                className="btn"
-                onClick={togglePreview}
-                disabled={!isFormValid}
-              >
-                {isPreviewVisible ? "Hide Preview" : "Show Preview"}
-              </button>
-              {isPreviewVisible && (
-                <div className="preview-container">{renderPreview()}</div>
-              )}
-            </div>
+        {/* Preview toggle */}
+        <div className="preview-section mt-3">
+          <button className="btn" onClick={togglePreview} disabled={!isFormValid}>
+            {isPreviewVisible ? "Hide Preview" : "Show Preview"}
+          </button>
+          {isPreviewVisible && <div className="preview-container mt-2">{renderPreview()}</div>}
+        </div>
 
-            <button
-              className="btn mt-3"
-              onClick={handleSaveChanges}
-              disabled={!isFormValid}
-            >
-              Save Changes
-            </button>
-          </>
-        ) : (
-          <p>Loading donation section...</p>
-        )}
+        <button className="btn mt-4" onClick={handleSubmit} disabled={!isFormValid}>
+          Save Changes
+        </button>
+        {message && <div className="message-box mt-2">{message}</div>}
       </main>
     </div>
   );

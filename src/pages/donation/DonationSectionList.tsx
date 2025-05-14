@@ -11,62 +11,32 @@ import "../../styles/donation/_donationsectionlist.scss";
 
 const DonationSectionList: React.FC = () => {
   const [sections, setSections] = useState<DonationSection[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // 1) Fetch donation sections from Firestore
-  const fetchSections = async () => {
-    try {
-      const data = await getDonationSections();
-      // Sort them by a custom order: donateSection -> donateItems -> becomeASponsor
-      const customOrder = ["donateSection", "donateItems", "becomeASponsor"];
-      const ordered = data.sort((a, b) => {
-        const indexA = customOrder.indexOf(a.sectionType);
-        const indexB = customOrder.indexOf(b.sectionType);
-        return indexA - indexB; // smaller index => higher priority
-      });
-      setSections(ordered);
-    } catch (err) {
-      console.error("Failed to fetch donation sections:", err);
-      setError("Failed to fetch donation sections.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // fetch & sort
   useEffect(() => {
-    fetchSections();
+    (async () => {
+      const data = await getDonationSections();
+      const order = ["donateSection", "donateItems", "becomeASponsor"];
+      data.sort((a, b) => order.indexOf(a.sectionType) - order.indexOf(b.sectionType));
+      setSections(data);
+      setLoading(false);
+    })();
   }, []);
 
-  // 2) Handle delete
   const handleDelete = async (id?: string) => {
     if (!id) return;
-    if (window.confirm("Are you sure you want to delete this donation section?")) {
-      try {
-        await deleteDonationSection(id);
-        setSections((prev) => prev.filter((s) => s.id !== id));
-        alert("Donation section deleted successfully.");
-      } catch (err) {
-        alert("Failed to delete the donation section.");
-        console.error(err);
-      }
-    }
+    if (!window.confirm("Delete this section?")) return;
+    await deleteDonationSection(id);
+    setSections(s => s.filter(x => x.id !== id));
+    alert("Deleted");
   };
 
   if (loading) {
     return (
       <div className="admin-container">
         <Sidebar />
-        <main>Loading donation sections...</main>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="admin-container">
-        <Sidebar />
-        <main>{error}</main>
+        <main>Loading…</main>
       </div>
     );
   }
@@ -77,57 +47,50 @@ const DonationSectionList: React.FC = () => {
       <main className="donation-section-list-container">
         <h2>Donation Sections</h2>
         <Link to="/add-donation-section" className="btn add-btn">
-          Add New Donation Section
+          + Add New
         </Link>
+
         {sections.length === 0 ? (
-          <p>No donation sections found.</p>
+          <p>No sections yet.</p>
         ) : (
           <table className="sections-table">
             <thead>
               <tr>
-                <th>Section Type</th>
-                <th>English/Hungarian Title</th>
+                <th>Type</th>
+                <th>EN Title</th>
+                <th>HU Title</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {sections.map((section) => {
-                let enTitle = "";
-                let huTitle = "";
-
-                switch (section.sectionType) {
-                  case "donateSection":
-                    enTitle = section.donateSection?.englishTitle || "";
-                    huTitle = section.donateSection?.hungarianTitle || "";
-                    break;
-                  case "donateItems":
-                    enTitle = section.donateItems?.englishTitle || "";
-                    huTitle = section.donateItems?.hungarianTitle || "";
-                    break;
-                  case "becomeASponsor":
-                    enTitle = section.sponsor?.englishTitle || "";
-                    huTitle = section.sponsor?.hungarianTitle || "";
-                    break;
-                  default:
-                    break;
-                }
-
+              {sections.map(sec => {
+                const en =
+                  sec.sectionType === "donateSection"
+                    ? sec.donateSection?.englishTitle
+                    : sec.sectionType === "donateItems"
+                    ? sec.donateItems?.englishTitle
+                    : sec.sponsor?.englishTitle;
+                const hu =
+                  sec.sectionType === "donateSection"
+                    ? sec.donateSection?.hungarianTitle
+                    : sec.sectionType === "donateItems"
+                    ? sec.donateItems?.hungarianTitle
+                    : sec.sponsor?.hungarianTitle;
                 return (
-                  <tr key={section.id}>
-                    <td>{section.sectionType}</td>
-                    <td>
-                      {enTitle} / {huTitle}
-                    </td>
+                  <tr key={sec.id}>
+                    <td>{sec.sectionType}</td>
+                    <td>{en}</td>
+                    <td>{hu}</td>
                     <td>
                       <Link
-                        to={`/edit-donation-section/${section.sectionType}/${section.id}`}
-                        className="edit-btn"
+                        to={`/edit-donation-section/${sec.id}`}
+                        className="edit-btn btn-sm"
                       >
                         Edit
                       </Link>
                       <button
-                        onClick={() => handleDelete(section.id)}
-                        className="delete-btn"
+                        className="delete-btn btn-sm"
+                        onClick={() => handleDelete(sec.id)}
                       >
                         Delete
                       </button>

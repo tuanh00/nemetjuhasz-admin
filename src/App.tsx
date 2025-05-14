@@ -36,6 +36,8 @@ import EditOurSponsorSection from "./pages/sponsor/EditOurSponsorSection";
 import ManageAdoptionSections from "./pages/pet/adoption/ManageAdoptionSections";
 import AddAdoptionSection from "./pages/pet/adoption/AddAdoptionSection";
 import AddDonationSection from "./pages/donation/AddDonationSection";
+import DonationSectionList from "./pages/donation/DonationSectionList";
+import EditDonationSection  from "./pages/donation/EditDonationSection";
 
 const App = () => {
   return (
@@ -169,6 +171,24 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/donation-sections"
+          element={
+            <ProtectedRoute>
+              <DonationSectionList />
+            </ProtectedRoute>
+          }
+        />
+        
+      <Route
+      path="/edit-donation-section/:id"
+      element={
+        <ProtectedRoute>
+          <EditDonationSection />
+        </ProtectedRoute>
+      }
+      />
 
         <Route
           path="/add-donation-section"

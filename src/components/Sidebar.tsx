@@ -5,8 +5,7 @@ import { IoDesktop } from "react-icons/io5";
 import { MdPets } from "react-icons/md";
 import { Link, Location, useLocation } from "react-router-dom";
 import { IoMenu } from "react-icons/io5"; // Hamburger icon
-import { FaHome } from "react-icons/fa"; // Home icon
-import { FaUsers } from "react-icons/fa"; // Icon for sponsors or volunteers
+import { FaHome, FaUsers, FaDonate } from "react-icons/fa"; // Home icon
 
 const Sidebar = () => {
   const location = useLocation();
@@ -76,12 +75,12 @@ const Sidebar = () => {
             <Li url="/add-adoption" text="Add Adoption Section" Icon={IoMdAdd} location={location} />
 
              {/* Donation Management */}
-             {/* <Li
+             <Li
               url="/donation-sections"
               text="Donation Sections"
               Icon={FaDonate}
               location={location}
-            /> */}
+            />
             <Li
               url="/add-donation-section"
               text="Add Donation Section"

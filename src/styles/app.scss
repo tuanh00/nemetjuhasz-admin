@@ -17,6 +17,10 @@
 @import "./donation/adddonationsection";
 @import "./donation/editdonationsection";
 @import "./donation/donationsectionlist";
+@import "./volunteer/addvolunteersection";
+@import "./volunteer/editvolunteersection";
+@import "./volunteer/volunteersectionlist";
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

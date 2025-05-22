@@ -38,6 +38,9 @@ import AddAdoptionSection from "./pages/pet/adoption/AddAdoptionSection";
 import AddDonationSection from "./pages/donation/AddDonationSection";
 import DonationSectionList from "./pages/donation/DonationSectionList";
 import EditDonationSection  from "./pages/donation/EditDonationSection";
+import AddVolunteerSection   from "./pages/volunteer/AddVolunteerSection";
+import VolunteerSectionList  from "./pages/volunteer/VolunteerSectionList";
+import EditVolunteerSection  from "./pages/volunteer/EditVolunteerSection";
 
 const App = () => {
   return (
@@ -199,6 +202,30 @@ const App = () => {
           }
         />
 
+        <Route
+        path="/volunteer-sections"
+        element={
+          <ProtectedRoute>
+            <VolunteerSectionList />
+          </ProtectedRoute>
+        }
+        />
+        <Route
+          path="/add-volunteer-section"
+          element={
+            <ProtectedRoute>
+              <AddVolunteerSection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-volunteer-section/:id"
+          element={
+            <ProtectedRoute>
+              <EditVolunteerSection />
+            </ProtectedRoute>
+          }
+        />
         {/* Add new routes for home sections */}
         <Route path="/home-sections" element={<HomeSectionList />} />
         <Route path="/add-home-section" element={<AddHomeSection />} />

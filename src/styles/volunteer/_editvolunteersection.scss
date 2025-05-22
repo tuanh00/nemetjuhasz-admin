@@ -1,0 +1,71 @@
+// src/styles/volunteer/_editvolunteersection.scss
+
+.edit-volunteer-section {
+  padding: 1rem;
+
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Make each label a full-width block with some spacing */
+  label {
+    display: block;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Inputs and textareas also full-width blocks */
+  input,
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+
+  /* Bullet rows stay as flex rows */
+  .bullet-row {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+    align-items: center;
+
+    .bullet-text {
+      flex: 2;
+    }
+    .bullet-link {
+      flex: 3;
+    }
+
+    .remove-bullet {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.85rem;
+      background: white;
+      color: #dc3545;
+      border: 1px solid #dc3545;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+
+  /* “Add Bullet” & “Save” buttons */
+  .add-bullet-btn,
+  .save-btn {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background: linear-gradient(to right, #aabbff, #07bffa);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1rem;
+  }
+}

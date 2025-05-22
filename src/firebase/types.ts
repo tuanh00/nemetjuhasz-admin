@@ -287,3 +287,21 @@ export interface SponsorDonation {
   hungarianButtonLink?: string;
 }
 // END DONATION SECTION TYPES
+//START VOLUNTEER SECTION TYPES
+export interface VolunteerSection {
+  id?: string;
+  englishTitle: string;
+  hungarianTitle: string;
+  subtitleEnglish: string;
+  subtitleHungarian: string;
+  introEnglish: string;
+  introHungarian: string;
+  closingEnglish: string;
+  closingHungarian: string;
+  youtubeUrl: string;
+  bulletPointsEnglish: string[];
+  bulletLinksEnglish: string[];
+  bulletPointsHungarian: string[];
+  bulletLinksHungarian: string[];
+}
+//END VOLUNTEER SECTION TYPES

@@ -1,0 +1,48 @@
+/* src/styles/previews/fostering/_fosteringsectionpreview.scss */
+.fostering-preview {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+
+  .header {
+    margin-bottom: 1rem;
+    h3 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: black;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .body {
+    display: flex;
+    gap: 1rem;
+    padding: 3rem 2rem;
+
+    .image-col,
+    .text-col {
+      flex: 1;
+    }
+
+    .image-col img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    .text-col p {
+      white-space: pre-line;
+      line-height: 1.6;
+      padding-left: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .body {
+      flex-direction: column;
+    }
+  }
+}

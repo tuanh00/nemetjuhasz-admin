@@ -41,6 +41,9 @@ import EditDonationSection  from "./pages/donation/EditDonationSection";
 import AddVolunteerSection   from "./pages/volunteer/AddVolunteerSection";
 import VolunteerSectionList  from "./pages/volunteer/VolunteerSectionList";
 import EditVolunteerSection  from "./pages/volunteer/EditVolunteerSection";
+import AddFosterSection  from "./pages/foster/AddFosteringSection";
+import FosterSectionList from "./pages/foster/FosteringSectionList";
+import EditFosterSection from "./pages/foster/EditFosteringSection";
 
 const App = () => {
   return (
@@ -223,6 +226,30 @@ const App = () => {
           element={
             <ProtectedRoute>
               <EditVolunteerSection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fostering-sections"
+          element={
+            <ProtectedRoute>
+              <FosterSectionList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/add-fostering-section"
+          element={
+            <ProtectedRoute>
+              <AddFosterSection />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-fostering-section/:id"
+          element={
+            <ProtectedRoute>
+              <EditFosterSection />
             </ProtectedRoute>
           }
         />

@@ -9,7 +9,13 @@ import {
 } from "../../firebase/FosteringService";
 import "../../styles/fostering/_editfosteringsection.scss";
 
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { getApp } from "firebase/app";
 
 export default function EditFosteringSection() {
@@ -26,6 +32,8 @@ export default function EditFosteringSection() {
   });
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
+  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const storage = getStorage(getApp());
 
@@ -70,14 +78,22 @@ export default function EditFosteringSection() {
   };
 
   const handleSave = async () => {
-    let imageUrl = sec.imgUrl;
-    if (file) {
-      const fileRef = ref(storage, `fostering/${file.name}_${Date.now()}`);
-      await uploadBytes(fileRef, file);
-      imageUrl = await getDownloadURL(fileRef);
+    try {
+      let imageUrl = sec.imgUrl;
+      if (file) {
+        const fileRef = ref(storage, `fostering/${file.name}_${Date.now()}`);
+        await uploadBytes(fileRef, file);
+        imageUrl = await getDownloadURL(fileRef);
+      }
+      await updateFosteringSection(id!, { ...sec, imgUrl: imageUrl });
+      setSuccessMsg("Section updated successfully!");
+      setErrorMsg("");
+      setTimeout(() => nav("/fostering-sections"), 1500);
+    } catch (error) {
+      console.error("Error updating section:", error);
+      setErrorMsg("Failed to update section. Please try again.");
+      setSuccessMsg("");
     }
-    await updateFosteringSection(id!, { ...sec, imgUrl: imageUrl });
-    nav("/fostering-sections");
   };
 
   return (
@@ -85,21 +101,18 @@ export default function EditFosteringSection() {
       <Sidebar />
       <main className="edit-fostering-section">
         <h2>Edit Fostering Section</h2>
-
         <label>EN Title</label>
         <input
           name="englishTitle"
           value={sec.englishTitle}
           onChange={handleField}
         />
-
         <label>HU Title</label>
         <input
           name="hungarianTitle"
           value={sec.hungarianTitle}
           onChange={handleField}
         />
-
         <label>EN Subtitle</label>
         <textarea
           name="subtitleEnglish"
@@ -107,7 +120,6 @@ export default function EditFosteringSection() {
           value={sec.subtitleEnglish}
           onChange={handleField}
         />
-
         <label>HU Subtitle</label>
         <textarea
           name="subtitleHungarian"
@@ -115,7 +127,6 @@ export default function EditFosteringSection() {
           value={sec.subtitleHungarian}
           onChange={handleField}
         />
-
         <label>EN Content</label>
         <textarea
           name="contentEnglish"
@@ -123,7 +134,6 @@ export default function EditFosteringSection() {
           value={sec.contentEnglish}
           onChange={handleField}
         />
-
         <label>HU Content</label>
         <textarea
           name="contentHungarian"
@@ -131,7 +141,6 @@ export default function EditFosteringSection() {
           value={sec.contentHungarian}
           onChange={handleField}
         />
-
         <label>Image</label>
         <div className="image-upload">
           {!previewUrl ? (
@@ -149,10 +158,11 @@ export default function EditFosteringSection() {
             </div>
           )}
         </div>
-
         <button className="btn save-btn" onClick={handleSave}>
           Save Changes
         </button>
+        {successMsg && <p className="success-message">{successMsg}</p>}
+        {errorMsg && <p className="error-message">{errorMsg}</p>}{" "}
       </main>
     </div>
   );

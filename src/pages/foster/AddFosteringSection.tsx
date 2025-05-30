@@ -30,6 +30,8 @@ export default function AddFosteringSection() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [showPreview, setShowPreview] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const storage = getStorage(getApp());
 
@@ -65,14 +67,22 @@ export default function AddFosteringSection() {
   };
 
   const handleSave = async () => {
-    let imageUrl = sec.imgUrl;
-    if (file) {
-      const fileRef = ref(storage, `fostering/${file.name}_${Date.now()}`);
-      await uploadBytes(fileRef, file);
-      imageUrl = await getDownloadURL(fileRef);
+    try {
+      let imageUrl = sec.imgUrl;
+      if (file) {
+        const fileRef = ref(storage, `fostering/${file.name}_${Date.now()}`);
+        await uploadBytes(fileRef, file);
+        imageUrl = await getDownloadURL(fileRef);
+      }
+      await createFosteringSection({ ...sec, imgUrl: imageUrl });
+      setSuccessMsg("Section saved successfully!");
+      setErrorMsg("");
+      setTimeout(() => nav("/fostering-sections"), 1500);
+    } catch (error) {
+      console.error("Error saving section:", error);
+      setErrorMsg("Failed to save section. Please try again.");
+      setSuccessMsg("");
     }
-    await createFosteringSection({ ...sec, imgUrl: imageUrl });
-    nav("/fostering-sections");
   };
 
   return (
@@ -164,6 +174,8 @@ export default function AddFosteringSection() {
         <button className="btn save-btn" onClick={handleSave}>
           Save
         </button>
+        {successMsg && <p className="success-message">{successMsg}</p>}
+        {errorMsg && <p className="error-message">{errorMsg}</p>}
       </main>
     </div>
   );

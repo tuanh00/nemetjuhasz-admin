@@ -55,9 +55,9 @@
         width: 24px;
         height: 24px;
         line-height: 24px;
-        display: flex;        
-        align-items: center;  
-        justify-content: center;       
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
       }
     }
@@ -65,5 +65,25 @@
 
   .save-btn {
     align-self: flex-start;
+  }
+
+  .success-message,
+  .error-message {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    font-weight: 500;
+    border-radius: 4px;
+  }
+
+  .success-message {
+    background-color: #28a745;
+    color: #fff;
+  }
+
+  .error-message {
+    background-color: #dc3545;
+    color: #fff;
   }
 }

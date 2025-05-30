@@ -305,3 +305,15 @@ export interface VolunteerSection {
   bulletLinksHungarian: string[];
 }
 //END VOLUNTEER SECTION TYPES
+//START FOSTERING SECTION TYPES
+export interface FosteringSection {
+  id?: string;
+  englishTitle: string;
+  hungarianTitle: string;
+  subtitleEnglish?: string;
+  subtitleHungarian?: string;
+  contentEnglish: string;
+  contentHungarian: string;
+  imgUrl: string;
+}
+//END FOSTERING SECTION TYPES

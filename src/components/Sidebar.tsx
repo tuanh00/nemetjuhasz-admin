@@ -87,6 +87,7 @@ const Sidebar = () => {
               Icon={IoMdAdd}
               location={location}
             />
+            {/* Fostering Management */}
             <Li
               url="/volunteer-sections"
               text="Volunteer Sections"
@@ -96,6 +97,19 @@ const Sidebar = () => {
             <Li
               url="/add-volunteer-section"
               text="Add Volunteer Section"
+              Icon={IoMdAdd}
+              location={location}
+            />
+            {/* Fostering Management */}
+            <Li
+              url="/fostering-sections"
+              text="Fostering Sections"
+              Icon={FaClipboardList}
+              location={location}
+            />
+            <Li
+              url="/add-fostering-section"
+              text="Add Fostering Section"
               Icon={IoMdAdd}
               location={location}
             />

@@ -17,7 +17,7 @@ content and media changes to be reflected dynamically on the public website.
 ### 🔗 Explore the Project
 
 🌐 **[Live Website](https://nemetjuhasz.com/?lang=en)**  
-🎥 **[Project Demos](https://drive.google.com/drive/folders/1t19KphA-svclvQSAXssKu_PBzlKZYyuN)**  
+🎥 **[Project Demos](https://drive.google.com/drive/folders/1t19KphA-svcIvQSAXssKu_PBzIKZYyuN?usp=sharing)**  
 💻 **Admin CMS Source Code:** You are here
 
 ---

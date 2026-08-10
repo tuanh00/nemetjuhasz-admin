@@ -250,7 +250,7 @@ including workflows such as:
 - Updating donation content
 - Verifying changes on the public-facing website
 
-### ▶️ [Open Nemetjuhasz CMS Project Demos](https://drive.google.com/drive/folders/1t19KphA-svclvQSAXssKu_PBzlKZYyuN)
+### ▶️ [Open Nemetjuhasz CMS Project Demos](https://drive.google.com/drive/folders/1t19KphA-svcIvQSAXssKu_PBzIKZYyuN?usp=sharing)
 
 The folder is shared with view-only access.
 

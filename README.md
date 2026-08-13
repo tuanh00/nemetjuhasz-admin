@@ -7,8 +7,7 @@
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev/)
 
-A custom CMS built to let administrators manage the content of the
-**Three of Us German Shepherds Foundation** website without modifying source code.
+A production-facing CMS built to let administrators manage the content of the **Three of Us German Shepherds Foundation** website without modifying source code.
 
 The system connects a React + TypeScript administration dashboard with
 **Cloud Firestore, Firebase Storage, and Firebase Authentication**, allowing
